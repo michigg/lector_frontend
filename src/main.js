@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import BootstrapVue from 'bootstrap-vue'
 import 'leaflet/dist/leaflet.css'
-import 'leaflet/dist/leaflet.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // fix icon for marker
 import { Icon } from 'leaflet'
@@ -16,6 +18,7 @@ Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false;
+Vue.use(BootstrapVue);
 
 new Vue({
   router,

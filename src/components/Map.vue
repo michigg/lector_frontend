@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <div class="info" style="height: 15%">
+    <div style="height: 100%;">
+       <!-- <div class="info" style="height: 15%">
             <span>Center: {{ center }}</span>
             <span>Zoom: {{ zoom }}</span>
             <span>Bounds: {{ bounds }}</span>
-        </div>
+        </div>-->
         <l-map
-                style="height: 400px; width: 400px"
+                style="height: 100%; width: 100%"
                 :zoom="zoom"
                 :center="center"
                 @update:zoom="zoomUpdated"
@@ -23,7 +23,7 @@
     import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
 
     export default {
-        name: "Map",
+        name: "map",
         components: { LMap, LTileLayer, LMarker },
         data() {
             return {
