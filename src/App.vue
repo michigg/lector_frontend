@@ -1,19 +1,8 @@
 <template>
     <div id="app" style="height: 100%;">
-        <b-nav id="nav">
-            <b-nav-item active>
-                <router-link to="/">Home</router-link>
-            </b-nav-item>
-            <b-nav-item>
-                <router-link to="/routing">Routing</router-link>
-            </b-nav-item>
-            <b-nav-item>
-                <router-link to="/about">About</router-link>
-            </b-nav-item>
-        </b-nav>
-        <b-container-fluid class="home">
+        <b-container fluid class="home">
             <router-view/>
-        </b-container-fluid>
+        </b-container>
     </div>
 </template>
 
@@ -42,6 +31,11 @@
     html, body, #app, .home{
         height: 100%;
         margin: 0;
+    }
+
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
 </style>

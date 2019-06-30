@@ -2,6 +2,7 @@
     <div class="textual-route-wrapper">
         <b-button block squared variant="outline-secondary" href="#" v-b-toggle.textual-route-description class="bg-light">{{from}} - {{to}}
             ({{duration}})
+                <router-link to="/">Home</router-link>
         </b-button>
         <b-collapse id="textual-route-description" accordion="textual-route-accordion" role="tabpanel">
             <ul class="list-group">
