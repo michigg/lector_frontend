@@ -1,8 +1,11 @@
 <template>
     <div class="textual-route-wrapper">
-        <b-button block squared variant="outline-secondary" href="#" v-b-toggle.textual-route-description class="bg-light">{{from}} - {{to}}
+        <b-button block squared variant="outline-secondary" href="#" v-b-toggle.textual-route-description
+                  class="bg-light">{{from}} - {{to}}
             ({{duration}})
-                <router-link to="/">Home</router-link>
+            <router-link to="/">
+                <font-awesome-icon icon="home"/>
+            </router-link>
         </b-button>
         <b-collapse id="textual-route-description" accordion="textual-route-accordion" role="tabpanel">
             <ul class="list-group">
@@ -29,7 +32,7 @@
                     {'distance': '1.2km', 'street': 'Berliner Ring'},
                     {'distance': '1.2km', 'street': 'Berliner Ring'},
                     {'distance': '1.2km', 'street': 'Berliner Ring'},
-                ]
+                ],
             }
         },
     }
@@ -43,7 +46,7 @@
         z-index: 500;
     }
 
-    #app{
+    #app {
         margin-top: 38px;
     }
 </style>
