@@ -28,8 +28,8 @@
         data() {
             return {
                 url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-                zoom: 10,
-                center: [49.8900562,  10.913047],
+                zoom: 18,
+                center: [49.89552596652598, 10.88346540927887],
                 bounds: null
             }
         },

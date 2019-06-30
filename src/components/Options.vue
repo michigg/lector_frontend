@@ -1,0 +1,69 @@
+<template>
+    <div class="options-wrapper">
+        <b-button id="popover-options" v-on:click="isActive = !isActive" squared variant="outline-secondary"
+                  class="options-btn bg-light">Options
+        </b-button>
+        <div v-bind:class="{ active: isActive }" class="options-popover bg-light">
+            Lorem Ipsum dolor sit amet.
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "TextualRoute",
+        data() {
+            return {
+                from: 'An der Weberei 5',
+                to: 'An der Universität 2',
+                duration: "20min",
+                items: [
+                    {'distance': '300m', 'street': 'Maria-Ward Straße'},
+                    {'distance': '1.2km', 'street': 'Berliner Ring'},
+                    {'distance': '1.2km', 'street': 'Berliner Ring'},
+                    {'distance': '1.2km', 'street': 'Berliner Ring'},
+                    {'distance': '1.2km', 'street': 'Berliner Ring'},
+                ],
+                title: 'Title',
+                content: 'Inhalte',
+                isActive: false
+            }
+        },
+    }
+</script>
+
+<style>
+    .options-wrapper {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        z-index: 500;
+    }
+
+    .options-btn {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 80%;
+        height: 30px;
+    }
+    .options-wrapper .options-popover {
+        display: none;
+        margin-bottom: 30px;
+        width: 80%;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+        padding: 5px;
+
+    }
+    .options-wrapper .options-popover.active{
+        display: block;
+
+    }
+
+    #app {
+        margin-bottom: 38px;
+    }
+</style>
