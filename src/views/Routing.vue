@@ -1,20 +1,10 @@
 <template>
     <div class="h-100">
-        <b-row>
-            <b-col>
-                <TextualRoute/>
-            </b-col>
-        </b-row>
-        <b-row class="h-100">
-            <b-col class="h-100">
-                <Map/>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col class="h-100">
-                <Options/>
-            </b-col>
-        </b-row>
+        <TextualRoute/>
+        <div class="map-wrapper">
+            <Map/>
+        </div>
+        <Options/>
     </div>
 </template>
 
@@ -34,5 +24,9 @@
 </script>
 
 <style scoped>
+    .map-wrapper{
+        height: calc(100% - 38px);
+        top: 38px;
+    }
 
 </style>
