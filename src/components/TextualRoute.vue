@@ -11,7 +11,7 @@
             <ul class="list-group">
                 <!-- eslint-disable-next-line -->
                 <li v-for="step in routingData" class="list-group-item">
-                     {{step.instruction}} - ({{ step.distance }}m | {{step.duration}}s)
+                    {{step.instruction}} - ({{ step.distance }}m | {{step.duration}}s)
                 </li>
             </ul>
         </b-collapse>
@@ -25,14 +25,6 @@
             return {
                 from: 'An der Weberei 5',
                 to: 'An der Universität 2',
-                duration: "20min",
-                items: [
-                    {'distance': '300m', 'street': 'Maria-Ward Straße'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                ],
             }
         },
         computed: {
