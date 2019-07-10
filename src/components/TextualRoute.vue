@@ -10,8 +10,8 @@
         <b-collapse id="textual-route-description" accordion="textual-route-accordion" role="tabpanel">
             <ul class="list-group">
                 <!-- eslint-disable-next-line -->
-                <li v-for="item in items" class="list-group-item">
-                    {{ item.distance }} - {{item.street}}
+                <li v-for="step in routingData" class="list-group-item">
+                     {{step.instruction}} - ({{ step.distance }}m | {{step.duration}}s)
                 </li>
             </ul>
         </b-collapse>
@@ -34,6 +34,11 @@
                     {'distance': '1.2km', 'street': 'Berliner Ring'},
                 ],
             }
+        },
+        computed: {
+            routingData() {
+                return this.$store.getters.getTextualRoute
+            },
         },
     }
 </script>

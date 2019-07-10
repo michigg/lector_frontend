@@ -33,6 +33,12 @@
                 bounds: null
             }
         },
+        computed: {
+            routingData() {
+                return this.$store.getters.getRoutingData
+            },
+        },
+
         methods: {
             zoomUpdated(zoom) {
                 this.zoom = zoom;
