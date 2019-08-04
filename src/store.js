@@ -91,7 +91,7 @@ export default new Vuex.Store({
     mutations: {
         loadRouting(state) {
             //TODO: implement modus again
-            const url = "http://localhost:8989/route"
+            const url = "" + process.env.VUE_APP_GH_DOMAIN + "/route"
                 .concat("?point=").concat(state.user_position)
                 .concat("&point=").concat([state.to_coord])
                 .concat("&vehicle=").concat(state.modus)
@@ -110,7 +110,7 @@ export default new Vuex.Store({
                 });
         },
         loadLectures(state, {token}) {
-            const url = "http://localhost:8888/api/v1/lecture/?token=".concat(token);
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
             window.axios.get(url)
                 .then(response => {
                     state.lectures = response.data;
@@ -121,7 +121,7 @@ export default new Vuex.Store({
         },
         loadRoomStaircaseCoord(state, {room}) {
             state.to = room.display;
-            const url = "http://localhost:8888/api/v1/staircase/"
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircase/"
                 .concat("?building=").concat(room.building_key)
                 .concat("&level=").concat(room.level)
                 .concat("&number=").concat(room.number);
