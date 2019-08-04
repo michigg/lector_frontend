@@ -1,41 +1,46 @@
 <template>
     <div style="height: 100%;">
-       <!-- <div class="info" style="height: 15%">
-            <span>Center: {{ center }}</span>
-            <span>Zoom: {{ zoom }}</span>
-            <span>Bounds: {{ bounds }}</span>
-        </div>-->
+        <!-- <div class="info" style="height: 15%">
+             <span>Center: {{ center }}</span>
+             <span>Zoom: {{ zoom }}</span>
+             <span>Bounds: {{ bounds }}</span>
+         </div>-->
         <l-map
                 style="height: 100%; width: 100%"
                 :zoom="zoom"
                 :center="center"
                 @update:zoom="zoomUpdated"
-                @update:center="centerUpdated"
                 @update:bounds="boundsUpdated"
         >
             <l-tile-layer :url="url"></l-tile-layer>
             <l-marker :lat-lng="center"></l-marker>
+            <l-polyline
+                    :lat-lngs="getPolyLine"
+                    color="green">
+            </l-polyline>
         </l-map>
     </div>
 </template>
 
 <script>
-    import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+    import {LMap, LTileLayer, LMarker, LPolyline} from 'vue2-leaflet'
 
     export default {
-        name: "map",
-        components: { LMap, LTileLayer, LMarker },
+        name: "leaflet-map",
+        components: {LMap, LTileLayer, LMarker, LPolyline},
         data() {
             return {
                 url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                 zoom: 18,
-                center: [49.89552596652598, 10.88346540927887],
-                bounds: null
+                bounds: null,
             }
         },
         computed: {
-            routingData() {
-                return this.$store.getters.getRoutingData
+            getPolyLine() {
+                return this.$store.getters.getPolyLineRoute
+            },
+            center() {
+                return this.$store.getters.getUserPosition
             },
         },
 
@@ -43,12 +48,22 @@
             zoomUpdated(zoom) {
                 this.zoom = zoom;
             },
-            centerUpdated(center) {
-                this.center = center;
-            },
             boundsUpdated(bounds) {
                 this.bounds = bounds;
-            }
+            },
+        },
+        created() {
+            this.$getLocation({
+                enableHighAccuracy: true, //defaults to false
+                timeout: Infinity, //defaults to Infinity
+                maximumAge: 5 //defaults to 0
+
+            })
+                .then(coordinates => {
+                    this.$store
+                        .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
+                        .then();
+                });
         }
     }
 </script>

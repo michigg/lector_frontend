@@ -10,6 +10,8 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
+import VueGeolocation from 'vue-browser-geolocation';
+
 
 library.add(faHome);
 
@@ -27,6 +29,7 @@ Icon.Default.mergeOptions({
 Vue.use(BootstrapVue);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
+Vue.use(VueGeolocation);
 
 window.axios = axios;
 
