@@ -8,12 +8,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
+import {faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueGeolocation from 'vue-browser-geolocation';
 
 
 library.add(faHome);
+library.add(faSpinner);
 
 // fix icon for marker
 import {Icon} from 'leaflet'

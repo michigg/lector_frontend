@@ -1,69 +1,89 @@
 <template>
-    <b-row class="justify-content-center">
-        <b-col sm="12">
-            <h1>Lector</h1>
-            <h2>Konfiguration</h2>
-        </b-col>
-        <b-col xs="12" sm="8" md="5" xl="3" class="mb-3 mt-0 pt-0">
-            <h3 class="mb-1">Veranstaltungsraumsuche</h3>
-            <b-form-input v-model="lectureToken" placeholder="Veranstaltung"></b-form-input>
-        </b-col>
-        <b-col sm="12" class="mb-4">
-            <b-row>
-                <b-col v-if="options" sm="12" class="mb-4">
-                    <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">Ergebnisse
-                    </button>
-                </b-col>
-                <b-col v-for="lecture in options" :key="lecture.univis_key" xs="12" sm=6 md="6" lg="4" xl="3"
-                       v-bind:class="{ active: lectureIsActive }"
-                       class="mb-4 lecture">
-                    <div class="lecture-content p-1 h-100">
-                        <h5>{{lecture.name}}</h5>
-                        <b-row>
-                            <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
-                                <button class="btn btn-primary" @click="selected = term.room">
-                                    <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
-                                    <p>{{term.room.building_key | do_room_number(term.room.level,
-                                        term.room.number)}}</p>
-                                </button>
-                            </b-col>
-                        </b-row>
-                    </div>
-                </b-col>
-            </b-row>
-        </b-col>
-        <b-col sm="12" class="mb-4">
-            <h2>Fortbewegung</h2>
-            <b-button-group class="locomotion-btn-group">
-                <b-button
-                        squared
-                        variant="primary"
-                        v-on:click="locomotion = 'foot'"
-                        class="locomotion-btn"
-                >Zu Fuß
-                </b-button>
-                <b-button
-                        squared
-                        variant="info"
-                        v-on:click="locomotion = 'bike2'"
-                        class="locomotion-btn"
-                >Fahrrad
-                </b-button>
-            </b-button-group>
-        </b-col>
-        <b-col sm="12">
-            <h2>Auswahl</h2>
-            <p v-if="selected">Raum: {{selected.building_key | do_room_number(selected.level, selected.number)}}</p>
-            <p v-else>Veranstaltung: Nothing selected</p>
-            <p v-if="locomotion">Fortbewegungsart: {{locomotion}}</p>
-            <p v-else>Fortbewegungsart: Nothing selected</p>
-            <p v-if="to_coord">Zielpunkt: {{to_coord}}</p>
-            <p v-else>Zielpunkt: Nothing selected</p>
-        </b-col>
-        <b-col sm="12">
-            <router-link to="/routing" class="btn btn-success">Navigation starten</router-link>
-        </b-col>
-    </b-row>
+    <div>
+        <b-row class="justify-content-center">
+            <!--            Heading-->
+            <b-col sm="12">
+                <h1>Lector</h1>
+                <h2>Konfiguration</h2>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-center">
+            <b-col xs="12" sm="8" md="5" xl="4" class="mb-3 mt-0 pt-0 text-center">
+                <h3 class="mb-1">Veranstaltungsraumsuche</h3>
+                <b-form-input v-model="lectureToken" placeholder="Veranstaltung"></b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-center">
+            <b-col xs="12" sm="8" md="5" xl="4" class="text-center" v-if="isLoading">
+                <p>Loading...</p>
+                <font-awesome-icon icon="spinner" spin pulse size="6x"/>
+            </b-col>
+            <b-col xs="12" sm="12" md="8" xl="8" v-else>
+                <b-row>
+                    <b-col v-if="options" xs="12" class="mb-4">
+                        <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">Ergebnisse
+                        </button>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col v-for="lecture in options" :key="lecture.univis_key" xs="12" sm=6 md="6" lg="6" xl="4"
+                           v-bind:class="{ active: lectureIsActive }"
+                           class="mb-4 lecture">
+                        <div class="lecture-content p-1 h-100">
+                            <h5>{{lecture.name}}</h5>
+                            <b-row>
+                                <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
+                                    <button class="btn btn-primary" @click="selected = term.room">
+                                        <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
+                                        <p>{{term.room.building_key | do_room_number(term.room.level,
+                                            term.room.number)}}</p>
+                                    </button>
+                                </b-col>
+                            </b-row>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-center">
+            <!--            Locomotion-->
+            <b-col sm="12" class="mb-4">
+                <h2>Fortbewegung</h2>
+                <b-button-group class="locomotion-btn-group">
+                    <b-button
+                            squared
+                            variant="primary"
+                            v-on:click="locomotion = 'foot'"
+                            class="locomotion-btn"
+                    >Zu Fuß
+                    </b-button>
+                    <b-button
+                            squared
+                            variant="info"
+                            v-on:click="locomotion = 'bike2'"
+                            class="locomotion-btn"
+                    >Fahrrad
+                    </b-button>
+                </b-button-group>
+            </b-col>
+        </b-row>
+        <b-row class="justify-content-center">
+            <b-col sm="12">
+                <h2>Auswahl</h2>
+                <p v-if="selected">Raum: {{selected.building_key | do_room_number(selected.level, selected.number)}}</p>
+                <p v-else>Veranstaltung: Nothing selected</p>
+                <p v-if="locomotion">Fortbewegungsart: {{locomotion}}</p>
+                <p v-else>Fortbewegungsart: Nothing selected</p>
+                <p v-if="to_coord">Zielpunkt: {{to_coord}}</p>
+                <p v-else>Zielpunkt: Nothing selected</p>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col sm="12">
+                <router-link to="/routing" class="btn btn-success">Navigation starten</router-link>
+            </b-col>
+        </b-row>
+    </div>
 </template>
 
 <script>
