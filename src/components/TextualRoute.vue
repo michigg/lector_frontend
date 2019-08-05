@@ -1,20 +1,20 @@
 <template>
     <div class="textual-route-wrapper">
-        <b-button block squared variant="outline-secondary" href="#" v-b-toggle.textual-route-description
-                  class="bg-light">{{from}} - {{to}}
+        <b-button block squared variant="outline-secondary" href="#" v-on:click="isActive = !isActive"
+                  class="bg-light textual-route-btn">{{from}} - {{to}}
             ({{duration}}min)
             <router-link to="/">
                 <font-awesome-icon icon="home"/>
             </router-link>
         </b-button>
-        <b-collapse id="textual-route-description" accordion="textual-route-accordion" role="tabpanel">
+        <div class="textual-route-description" v-bind:class="{ active: isActive }">
             <ul class="list-group">
                 <!-- eslint-disable-next-line -->
                 <li v-for="step in routingData" class="list-group-item">
                     {{step.street_name}}: {{step.text}} - ({{ step.distance }}m | {{step.time}}s)
                 </li>
             </ul>
-        </b-collapse>
+        </div>
     </div>
 </template>
 
@@ -22,7 +22,9 @@
     export default {
         name: "TextualRoute",
         data() {
-            return {}
+            return {
+                isActive: false,
+            }
         },
         computed: {
             routingData() {
@@ -42,11 +44,45 @@
 </script>
 
 <style>
+
     .textual-route-wrapper {
         position: fixed;
         width: 100%;
         top: 0;
         z-index: 500;
+    }
+
+
+    .textual-route-wrapper {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 500;
+    }
+
+    .textual-route-btn {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 40px;
+    }
+
+    .textual-route-wrapper .textual-route-description {
+        /*display: none;*/
+        width: 100%;
+        top: -640px;
+        position: fixed;
+        padding: 5px;
+        height: 600px;
+        overflow: scroll;
+        transition: top 1s;
+
+    }
+
+    .textual-route-wrapper .textual-route-description.active {
+        display: block;
+        top: 40px;
+        transition: top 1s;
     }
 
     #app {
