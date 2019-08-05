@@ -75,13 +75,10 @@ export default new Vuex.Store({
         getPolyLineRoute: state => {
             if (state.routingData.paths) {
                 const points = state.routingData.paths[0].points.coordinates;
-                const instrucations = state.routingData.paths[0].instructions;
+                // const instrucations = state.routingData.paths[0].instructions;
                 let polyline = [];
-                for (const instrucation of instrucations) {
-                    const point1 = points[instrucation.interval[0]];
-                    const point2 = points[instrucation.interval[1]];
-                    polyline.push([point1[1], point1[0]]);
-                    polyline.push([point2[1], point2[0]]);
+                for (const point of points) {
+                    polyline.push([point[1], point[0]]);
                 }
                 return polyline
             }
