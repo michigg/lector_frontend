@@ -1,19 +1,29 @@
 <template>
     <div class="textual-route-wrapper">
         <b-button block squared variant="outline-secondary" href="#" v-on:click="isActive = !isActive"
-                  class="bg-light textual-route-btn">{{from}} - {{to}}
+                  class="bg-light textual-route-btn" v-if="routingData.length > 0">{{from | get_street_name}} - {{to | get_street_name}}
             ({{duration}}min)
             <router-link to="/">
                 <font-awesome-icon icon="home"/>
             </router-link>
         </b-button>
-        <div class="textual-route-description" v-bind:class="{ active: isActive }">
+        <b-button block squared variant="outline-secondary" href="#" v-on:click="isActive = !isActive"
+                  class="bg-light textual-route-btn" v-else>
+            Keine Route gefunden!
+            <router-link to="/"><font-awesome-icon icon="home"/></router-link>
+        </b-button>
+        <div class="textual-route-description" v-bind:class="{ active: isActive }" v-if="routingData.length > 0">
             <ul class="list-group">
                 <!-- eslint-disable-next-line -->
                 <li v-for="step in routingData" class="list-group-item">
-                    {{step.street_name}}: {{step.text}} - ({{ step.distance }}m | {{step.time}}s)
+                    <p v-if="step.street_name"> {{step.street_name | get_street_name}} ({{step.distance |round_meter }}m
+                        | {{step.time | to_minutes}})</p>
+                    <p>{{step.text}}</p>
                 </li>
             </ul>
+        </div>
+        <div class="textual-route-description bg-light" v-bind:class="{ active: isActive }" v-else>
+            <p class="h2">Keine Route gefunden!</p>
         </div>
     </div>
 </template>
@@ -39,7 +49,26 @@
             to() {
                 return this.$store.getters.getRouteTo
             },
-        },
+        }, filters: {
+            to_minutes: function (value) {
+                const minutes = Math.round(value / 60000);
+                if (minutes > 0) {
+                    return minutes + "min";
+                } else {
+                    return Math.round(value / 1000) + "s";
+                }
+            },
+            round_meter: function (value) {
+                return Math.round(value * 10) / 10
+            },
+            get_street_name: function (value) {
+                if (isNaN(value) || !value) {
+                    return "Unbekannter Weg"
+                } else {
+                    return value
+                }
+            }
+        }
     }
 </script>
 
@@ -68,21 +97,19 @@
     }
 
     .textual-route-wrapper .textual-route-description {
-        /*display: none;*/
         width: 100%;
         top: -640px;
         position: fixed;
         padding: 5px;
         height: 600px;
         overflow: scroll;
-        transition: top 1s;
+        transition: top 0.5s;
 
     }
 
     .textual-route-wrapper .textual-route-description.active {
-        display: block;
         top: 40px;
-        transition: top 1s;
+        transition: top 0.5s;
     }
 
 </style>

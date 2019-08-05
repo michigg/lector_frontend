@@ -46,23 +46,24 @@
         bottom: 0;
         right: 0;
         width: 80%;
-        height: 30px;
+        height: 40px;
     }
 
     .options-wrapper .options-popover {
-        display: none;
-        margin-bottom: 30px;
-        width: 80%;
+        height: 600px;
+        bottom: -640px;
+        width: 100%;
         right: 0;
-        bottom: 0;
         position: fixed;
         padding: 5px;
+        overflow: scroll;
+        transition: bottom 0.5s;
 
     }
 
     .options-wrapper .options-popover.active {
-        display: block;
-
+        bottom: 40px;
+        transition: bottom 0.5s;
     }
 
 </style>

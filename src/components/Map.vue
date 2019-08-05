@@ -68,8 +68,8 @@
     }
 </script>
 
-<style scoped>
+<style>
     .leaflet-top {
-        top: 45px;
+        top: 45px !important;
     }
 </style>

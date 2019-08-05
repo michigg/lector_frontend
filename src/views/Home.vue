@@ -1,28 +1,24 @@
 <template>
-    <b-row class="align-content-center">
+    <b-row class="justify-content-center">
         <b-col sm="12">
-            <h1>Einstellungen</h1>
+            <h1>Lector</h1>
+            <h2>Konfiguration</h2>
         </b-col>
-        <b-col sm="12" class="mb-3 mt-0 pt-0">
-            <h2 class="mb-1">Veranstaltung</h2>
-            <multiselect
-                    v-model="selected"
-                    :options="options"
-                    placeholder="Select one"
-                    label="label"
-                    track-by="label"
-                    :loading="isLoading"
-                    @search-change="get_lectures_by_token"
-            ></multiselect>
+        <b-col xs="12" sm="8" md="5" xl="3" class="mb-3 mt-0 pt-0">
+            <h3 class="mb-1">Veranstaltungsraumsuche</h3>
+            <b-form-input v-model="lectureToken" placeholder="Veranstaltung"></b-form-input>
         </b-col>
         <b-col sm="12" class="mb-4">
             <b-row>
+                <b-col v-if="options" sm="12" class="mb-4">
+                    <h3>Ergebnisse</h3>
+                </b-col>
                 <b-col v-for="lecture in options" :key="lecture.univis_key" sm="12" class="mb-4">
-                    <h3>{{lecture.name}}</h3>
+                    <h4>{{lecture.name}}</h4>
                     <b-row>
                         <b-col v-for="(term, index) in lecture.terms" :key="index" sm="3" class="mb-4">
                             <button class="btn btn-primary" @click="selected = term.room">
-                                <h4>Ab {{term.starttime | format_time}}</h4>
+                                <h5>Ab {{term.starttime | format_time}}</h5>
                                 <p>{{term.room.building_key | do_room_number(term.room.level, term.room.number)}}</p>
                             </button>
                         </b-col>
@@ -53,10 +49,10 @@
             <h2>Auswahl</h2>
             <p v-if="selected">Raum: {{selected.building_key | do_room_number(selected.level, selected.number)}}</p>
             <p v-else>Veranstaltung: Nothing selected</p>
-            <p v-if="locomotion">Fortbewegung: {{locomotion}}</p>
-            <p v-else>Fortbewegung: Nothing selected</p>
-            <p v-if="to_coord">Fortbewegung: {{to_coord}}</p>
-            <p v-else>Fortbewegung: Nothing selected</p>
+            <p v-if="locomotion">Fortbewegungsart: {{locomotion}}</p>
+            <p v-else>Fortbewegungsart: Nothing selected</p>
+            <p v-if="to_coord">Zielpunkt: {{to_coord}}</p>
+            <p v-else>Zielpunkt: Nothing selected</p>
         </b-col>
         <b-col sm="12">
             <router-link to="/routing" class="btn btn-success">Navigation starten</router-link>
@@ -65,16 +61,12 @@
 </template>
 
 <script>
-    // @ is an alias to /src
-    import Multiselect from 'vue-multiselect'
 
     export default {
         name: 'home',
-        components: {
-            Multiselect
-        },
         data() {
             return {
+                lectureToken: null,
                 selected: null,
                 locomotion: null,
                 isLoading: false,
@@ -129,9 +121,16 @@
             },
         },
         watch: {
+            lectureToken: function () {
+                this.get_lectures_by_token(this.lectureToken);
+            },
             selected: function () {
-                setTimeout(() => this.abbort_lecture_load(), 200);
                 this.selected['display'] = this.get_room_display_name(this.selected.building_key, this.selected.level, this.selected.number);
+
+                // clearTimeout(this.currentTimeout);
+                // this.currentTimeout = setTimeout(() => this.load_lectures(query), 500);
+                // setTimeout(() => this.abbort_lecture_load(), 200);
+
                 this.$store
                     .dispatch('loadRoomStaircaseCoord', {'room': this.selected})
                     .then();
