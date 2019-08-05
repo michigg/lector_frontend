@@ -69,4 +69,7 @@
 </script>
 
 <style scoped>
+    .leaflet-top {
+        top: 45px;
+    }
 </style>
