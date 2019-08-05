@@ -11,18 +11,24 @@
         <b-col sm="12" class="mb-4">
             <b-row>
                 <b-col v-if="options" sm="12" class="mb-4">
-                    <h3>Ergebnisse</h3>
+                    <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">Ergebnisse
+                    </button>
                 </b-col>
-                <b-col v-for="lecture in options" :key="lecture.univis_key" sm="12" class="mb-4">
-                    <h4>{{lecture.name}}</h4>
-                    <b-row>
-                        <b-col v-for="(term, index) in lecture.terms" :key="index" sm="3" class="mb-4">
-                            <button class="btn btn-primary" @click="selected = term.room">
-                                <h5>Ab {{term.starttime | format_time}}</h5>
-                                <p>{{term.room.building_key | do_room_number(term.room.level, term.room.number)}}</p>
-                            </button>
-                        </b-col>
-                    </b-row>
+                <b-col v-for="lecture in options" :key="lecture.univis_key" xs="12" sm=6 md="6" lg="4" xl="3"
+                       v-bind:class="{ active: lectureIsActive }"
+                       class="mb-4 lecture">
+                    <div class="lecture-content p-1 h-100">
+                        <h5>{{lecture.name}}</h5>
+                        <b-row>
+                            <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
+                                <button class="btn btn-primary" @click="selected = term.room">
+                                    <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
+                                    <p>{{term.room.building_key | do_room_number(term.room.level,
+                                        term.room.number)}}</p>
+                                </button>
+                            </b-col>
+                        </b-row>
+                    </div>
                 </b-col>
             </b-row>
         </b-col>
@@ -39,7 +45,7 @@
                 <b-button
                         squared
                         variant="info"
-                        v-on:click="locomotion = 'bike'"
+                        v-on:click="locomotion = 'bike2'"
                         class="locomotion-btn"
                 >Fahrrad
                 </b-button>
@@ -71,6 +77,7 @@
                 locomotion: null,
                 isLoading: false,
                 currentTimeout: null,
+                lectureIsActive: true,
             }
         },
         computed: {
@@ -94,10 +101,6 @@
             },
             stop_loading() {
                 this.isLoading = false;
-            },
-            abbort_lecture_load() {
-                clearTimeout(this.currentTimeout);
-                this.stop_loading();
             },
             get_room_display_name(building_key, level, number) {
                 switch (number.toString().length) {
@@ -126,11 +129,6 @@
             },
             selected: function () {
                 this.selected['display'] = this.get_room_display_name(this.selected.building_key, this.selected.level, this.selected.number);
-
-                // clearTimeout(this.currentTimeout);
-                // this.currentTimeout = setTimeout(() => this.load_lectures(query), 500);
-                // setTimeout(() => this.abbort_lecture_load(), 200);
-
                 this.$store
                     .dispatch('loadRoomStaircaseCoord', {'room': this.selected})
                     .then();
@@ -175,6 +173,20 @@
     .locomotion-btn-group {
         width: 300px;
         height: 150px;
+    }
+
+    .lecture.active {
+        display: block;
+    }
+
+    .lecture {
+        display: none;
+    }
+
+    .lecture-content {
+        -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
+        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
     }
 
 
