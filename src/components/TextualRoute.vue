@@ -85,7 +85,4 @@
         transition: top 1s;
     }
 
-    #app {
-        margin-top: 38px;
-    }
 </style>

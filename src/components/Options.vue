@@ -48,6 +48,7 @@
         width: 80%;
         height: 30px;
     }
+
     .options-wrapper .options-popover {
         display: none;
         margin-bottom: 30px;
@@ -58,12 +59,10 @@
         padding: 5px;
 
     }
-    .options-wrapper .options-popover.active{
+
+    .options-wrapper .options-popover.active {
         display: block;
 
     }
 
-    #app {
-        margin-bottom: 38px;
-    }
 </style>
