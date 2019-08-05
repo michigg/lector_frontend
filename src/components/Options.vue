@@ -4,7 +4,7 @@
                   class="options-btn bg-light">Options
         </b-button>
         <div v-bind:class="{ active: isActive }" class="options-popover bg-light">
-            Lorem Ipsum dolor sit amet.
+            Hier könnte Ihre Busverbindung stehen!
         </div>
     </div>
 </template>
