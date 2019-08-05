@@ -110,6 +110,7 @@ export default new Vuex.Store({
                 });
         },
         loadLectures(state, {token}) {
+            state.lectures = [];
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
             window.axios.get(url)
                 .then(response => {

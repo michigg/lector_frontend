@@ -62,7 +62,7 @@
             }
         },
         computed: {
-            options() {
+            lectures() {
                 return this.$store.getters.getLectures
             },
             to_coord() {

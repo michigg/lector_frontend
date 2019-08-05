@@ -55,11 +55,11 @@
         created() {
             const locationOptions = {
                 enableHighAccuracy: true, //defaults to false
-                timeout: Infinity, //defaults to Infinity
-                maximumAge: 5 //defaults to 0
+                timeout: 5000, //defaults to Infinity
+                maximumAge: 0 //defaults to 0
 
             };
-            this.$getLocation()
+            this.$getLocation(locationOptions)
                 .then(coordinates => {
                     this.$store
                         .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
