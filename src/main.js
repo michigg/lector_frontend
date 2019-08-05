@@ -33,6 +33,31 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 Vue.use(VueGeolocation);
 
+Vue.filter("do_room_number", (building_key, level, number) => {
+    switch (number.toString().length) {
+        case 1:
+            number = '00' + number;
+            break;
+        case 2:
+            number = '0' + number;
+            break;
+        default:
+            break;
+    }
+    switch (level.toString().length) {
+        case 1:
+            level = '0' + level;
+            break;
+        default:
+            break;
+    }
+    return building_key + "/" + level + "." + number;
+},);
+Vue.filter("format_time", value => {
+    let time = value.toString().split('T')[1].split(':');
+    return time[0] + ':' + time[1];
+});
+
 window.axios = axios;
 
 new Vue({

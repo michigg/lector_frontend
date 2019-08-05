@@ -53,12 +53,19 @@
             },
         },
         created() {
-            this.$getLocation({
+            const locationOptions = {
                 enableHighAccuracy: true, //defaults to false
                 timeout: Infinity, //defaults to Infinity
                 maximumAge: 5 //defaults to 0
 
-            })
+            };
+            this.$getLocation()
+                .then(coordinates => {
+                    this.$store
+                        .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
+                        .then();
+                });
+            this.$watchLocation(locationOptions)
                 .then(coordinates => {
                     this.$store
                         .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
