@@ -62,7 +62,6 @@
                 return Math.round(value * 10) / 10
             },
             get_street_name: function (value) {
-                console.log(value);
                 if (value == "nan") {
                     return "Unbekannter Weg"
                 } else {
