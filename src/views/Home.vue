@@ -7,7 +7,7 @@
                 <h2>Konfiguration</h2>
             </b-col>
         </b-row>
-        <LectureSelector />
+        <LectureSelector/>
         <b-row class="justify-content-center">
             <!--            Locomotion-->
             <b-col sm="12" class="mb-4">
@@ -68,7 +68,7 @@
             to_coord() {
                 return this.$store.getters.getToCoord
             },
-            selected(){
+            selected() {
                 return this.$store.getters.getRouteTo
             }
         },

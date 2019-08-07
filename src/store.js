@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         routingData: {},
         route: 0,
-        lectures: [],
+        lectures: {},
+        rooms: [],
         to_coord: [
             49.89348707885022,
             10.887494087219238
@@ -22,6 +23,20 @@ export default new Vuex.Store({
     getters: {
         getLectures: state => {
             return state.lectures
+        },
+        getLecturesBefore: state => {
+            if (state.lectures.before) {
+                return state.lectures.before;
+            }
+        },
+        getLecturesAfter: state => {
+            if (state.lectures.after) {
+                return state.lectures.after;
+            }
+            return []
+        },
+        getRooms: state => {
+            return state.rooms;
         },
         getLecturesMinimal: state => {
             let minimal_lectures = [];
@@ -119,6 +134,16 @@ export default new Vuex.Store({
                     console.error(e)
                 });
         },
+        loadRooms(state, {token}) {
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
+            window.axios.get(url)
+                .then(response => {
+                    state.rooms = response.data;
+                })
+                .catch(e => {
+                    console.error(e)
+                });
+        },
         loadRoomStaircaseCoord(state, {room}) {
             state.to = room.display;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircase/"
@@ -146,6 +171,9 @@ export default new Vuex.Store({
         },
         loadLectures(context, config) {
             context.commit('loadLectures', config)
+        },
+        loadRooms(context, config) {
+            context.commit('loadRooms', config)
         },
         loadRoomStaircaseCoord(context, config) {
             context.commit('loadRoomStaircaseCoord', config)

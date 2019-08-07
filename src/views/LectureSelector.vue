@@ -37,6 +37,32 @@
                     </b-col>
                 </b-row>
             </b-col>
+            <b-col xs="12" sm="12" md="8" xl="8" v-else>
+                <b-row>
+                    <b-col v-if="options" xs="12" class="mb-4">
+                        <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">Ergebnisse
+                        </button>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col v-for="lecture in options" :key="lecture.univis_key" xs="12" sm=6 md="6" lg="6" xl="4"
+                           v-bind:class="{ active: lectureIsActive }"
+                           class="mb-4 lecture">
+                        <div class="lecture-content p-1 h-100">
+                            <h5>{{lecture.name}}</h5>
+                            <b-row>
+                                <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
+                                    <button class="btn btn-primary" @click="selected = term.room">
+                                        <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
+                                        <p>{{term.room.building_key | do_room_number(term.room.level,
+                                            term.room.number)}}</p>
+                                    </button>
+                                </b-col>
+                            </b-row>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-col>
         </b-row>
     </div>
 </template>
@@ -58,6 +84,15 @@
             },
             to_coord() {
                 return this.$store.getters.getToCoord
+            },
+            lecturesBefore() {
+                return this.$store.getters.getLecturesBefore
+            },
+            lecturesAfter() {
+                return this.$store.getters.getLecturesAfter
+            },
+            rooms() {
+                return this.$store.getters.getRooms
             },
         },
         methods: {
