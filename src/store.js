@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -113,7 +114,7 @@ export default new Vuex.Store({
                 .concat("&points_encoded=false")
                 .concat("&eleceation=true")
                 .concat("&key=");
-            window.axios.get(url)
+            axios.get(url)
                 .then(response => {
                     state.routingData = response.data;
                 })
@@ -124,22 +125,25 @@ export default new Vuex.Store({
         loadLectures(state, {token}) {
             state.lectures = [];
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
-            window.axios.get(url)
+            console.log(url);
+            axios.get(url)
                 .then(response => {
                     state.lectures = response.data;
                 })
                 .catch(e => {
-                    console.error(e)
+                    console.error(e);
+                    state.lectures = {}
                 });
         },
         loadRooms(state, {token}) {
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
-            window.axios.get(url)
+            axios.get(url)
                 .then(response => {
                     state.rooms = response.data;
                 })
                 .catch(e => {
-                    console.error(e)
+                    console.error(e);
+                    state.rooms = []
                 });
         },
         loadRoomStaircaseCoord(state, {room}) {
@@ -148,7 +152,7 @@ export default new Vuex.Store({
                 .concat("?building=").concat(room.building_key)
                 .concat("&level=").concat(room.level)
                 .concat("&number=").concat(room.number);
-            window.axios.get(url)
+            axios.get(url)
                 .then(response => {
                     state.to_coord = [response.data.latitude, response.data.longitude];
                 })
