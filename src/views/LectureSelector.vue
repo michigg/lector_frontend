@@ -12,12 +12,12 @@
         </b-row>
         <b-row class="justify-content-center">
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
-                   v-if="!lectures && token && !searched_rooms">
+                   v-if="token && lecturesBefore.length == 0 && lecturesAfter.length == 0 && !lecturesLoaded">
                 <p>Vorlesungsergebnisse Loading...</p>
                 <font-awesome-icon icon="spinner" spin pulse size="6x"/>
             </b-col>
             <b-col xs="12" sm="12" md="8" xl="8"
-                   v-else-if="(lecturesBefore && lecturesBefore.length > 0) || (lecturesAfter && lecturesAfter.length > 0)">
+                   v-else-if="lecturesBefore.length > 0 || lecturesAfter.length > 0">
                 <b-row>
                     <b-col xs="12" class="mb-4">
                         <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">
@@ -76,7 +76,7 @@
 
             </b-col>
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
-                   v-if="searched_rooms.length == 0 && !lecturesBefore && !lecturesAfter && token">
+                   v-if="token && searched_rooms.length == 0 && !roomsLoaded">
                 <p>Raumergebnisse Loading...</p>
                 <font-awesome-icon icon="spinner" spin pulse size="6x"/>
             </b-col>
@@ -130,6 +130,12 @@
             },
             searched_rooms() {
                 return this.$store.getters.getRooms
+            },
+            roomsLoaded() {
+                return this.$store.getters.areRoomsLoaded
+            },
+            lecturesLoaded() {
+                return this.$store.getters.areLecturesLoaded
             },
         },
         methods: {

@@ -20,6 +20,8 @@ export default new Vuex.Store({
             10.8984375
         ],
         modus: 'foot',
+        lecturesLoaded: false,
+        roomsLoaded: false,
     },
     getters: {
         getLectures: state => {
@@ -29,6 +31,7 @@ export default new Vuex.Store({
             if (state.lectures.before) {
                 return state.lectures.before;
             }
+            return []
         },
         getLecturesAfter: state => {
             if (state.lectures.after) {
@@ -39,13 +42,6 @@ export default new Vuex.Store({
         getRooms: state => {
             return state.rooms;
         },
-        // getLecturesMinimal: state => {
-        //     let minimal_lectures = [];
-        //     for (const lecture of state.lectures) {
-        //         minimal_lectures.push({'value': lecture, 'label': lecture.name})
-        //     }
-        //     return minimal_lectures
-        // },
         getToCoord: state => {
             return state.to_coord
         },
@@ -100,6 +96,12 @@ export default new Vuex.Store({
             }
             return []
         },
+        areRoomsLoaded: state => {
+            return state.roomsLoaded;
+        },
+        areLecturesLoaded: state => {
+            return state.lecturesLoaded;
+        },
     },
     mutations: {
         loadRouting(state) {
@@ -123,27 +125,34 @@ export default new Vuex.Store({
                 });
         },
         loadLectures(state, {token}) {
+            state.lecturesLoaded = false;
             state.lectures = [];
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
-            console.log(url);
+            console.log(state.lecturesLoaded);
             axios.get(url)
                 .then(response => {
+                    state.lecturesLoaded = true;
+                    console.log(state.lecturesLoaded);
                     state.lectures = response.data;
                 })
                 .catch(e => {
+                    state.lecturesLoaded = true;
                     console.error(e);
-                    state.lectures = {}
+                    state.lectures = {};
                 });
         },
         loadRooms(state, {token}) {
+            state.roomsLoaded = false;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
             axios.get(url)
                 .then(response => {
+                    state.roomsLoaded = true;
                     state.rooms = response.data;
                 })
                 .catch(e => {
+                    state.roomsLoaded = true;
                     console.error(e);
-                    state.rooms = []
+                    state.rooms = [];
                 });
         },
         loadRoomStaircaseCoord(state, {room}) {
