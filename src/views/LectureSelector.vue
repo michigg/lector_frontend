@@ -177,7 +177,7 @@
                     .then();
             },
             roomOverride: function () {
-                let regex = /(.*)\/([0-9]*)\.([0-9]*)/;
+                let regex = /([a-zA-Z]*[0-9]*)\/([0-9]{2})\.([0-9]{2,3})/;
                 if (this.roomOverride.match(regex)) {
                     let match = regex.exec(this.roomOverride);
                     let room = {'building_key': match[1], 'level': parseInt(match[2]), 'number': parseInt(match[3])};
