@@ -39,13 +39,13 @@ export default new Vuex.Store({
         getRooms: state => {
             return state.rooms;
         },
-        getLecturesMinimal: state => {
-            let minimal_lectures = [];
-            for (const lecture of state.lectures) {
-                minimal_lectures.push({'value': lecture, 'label': lecture.name})
-            }
-            return minimal_lectures
-        },
+        // getLecturesMinimal: state => {
+        //     let minimal_lectures = [];
+        //     for (const lecture of state.lectures) {
+        //         minimal_lectures.push({'value': lecture, 'label': lecture.name})
+        //     }
+        //     return minimal_lectures
+        // },
         getToCoord: state => {
             return state.to_coord
         },
@@ -148,6 +148,7 @@ export default new Vuex.Store({
         },
         loadRoomStaircaseCoord(state, {room}) {
             state.to = room.display;
+            state.to_coord = null;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircase/"
                 .concat("?building=").concat(room.building_key)
                 .concat("&level=").concat(room.level)

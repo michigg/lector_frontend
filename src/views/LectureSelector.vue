@@ -3,15 +3,21 @@
         <b-row class="justify-content-center">
             <b-col xs="12" sm="8" md="5" xl="4" class="mb-3 mt-0 pt-0 text-center">
                 <h3 class="mb-1">Veranstaltungsraumsuche</h3>
-                <b-form-input v-model="token" placeholder="Veranstaltung"></b-form-input>
+                <b-form-input v-model="token" placeholder="Veranstaltung oder Raum"></b-form-input>
+            </b-col>
+            <b-col xs="12" sm="8" md="5" xl="4" class="mb-3 mt-0 pt-0 text-center">
+                <h3 class="mb-1">Raum Direkt setzen</h3>
+                <b-form-input v-model="roomOverride" placeholder="Raum Nummer (Bsp.: WE5/00.022)"></b-form-input>
             </b-col>
         </b-row>
         <b-row class="justify-content-center">
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center" v-if="!lectures && token">
+            <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
+                   v-if="!lectures && token && !searched_rooms">
                 <p>Vorlesungsergebnisse Loading...</p>
                 <font-awesome-icon icon="spinner" spin pulse size="6x"/>
             </b-col>
-            <b-col xs="12" sm="12" md="8" xl="8" v-else-if="lecturesBefore">
+            <b-col xs="12" sm="12" md="8" xl="8"
+                   v-else-if="(lecturesBefore && lecturesBefore.length > 0) || (lecturesAfter && lecturesAfter.length > 0)">
                 <b-row>
                     <b-col xs="12" class="mb-4">
                         <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">
@@ -21,7 +27,7 @@
                 </b-row>
                 <b-row>
                     <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="mb-4 lecture"
-                           v-bind:class="{ active: lectureIsActive}">
+                           v-bind:class="{ active: lectureIsActive}" v-if="lecturesBefore && lecturesBefore.length > 0">
                         <button class="btn btn-primary w-100"
                                 v-on:click="hideEarlierLectureResults = !hideEarlierLectureResults">
                             Frühere Ergebnisse anzeigen
@@ -45,7 +51,8 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="mb-4 text-center lecture" v-bind:class="{ active: lectureIsActive}">
+                    <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="mb-4 text-center lecture"
+                           v-bind:class="{ active: lectureIsActive}" v-if="lecturesAfter && lecturesAfter.length > 0">
                         <h3>Aktuell Kommende</h3>
                     </b-col>
                     <b-col v-for="lecture in lecturesAfter" :key="lecture.univis_key" xs="12" sm="6" md="6" lg="6"
@@ -69,7 +76,7 @@
 
             </b-col>
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
-                   v-if="searched_rooms.length == 0 && token">
+                   v-if="searched_rooms.length == 0 && !lecturesBefore && !lecturesAfter && token">
                 <p>Raumergebnisse Loading...</p>
                 <font-awesome-icon icon="spinner" spin pulse size="6x"/>
             </b-col>
@@ -105,6 +112,7 @@
                 lectureIsActive: true,
                 roomIsActive: true,
                 hideEarlierLectureResults: true,
+                roomOverride: null,
             }
         },
         computed: {
@@ -168,6 +176,17 @@
                     .dispatch('loadRoomStaircaseCoord', {'room': this.selected})
                     .then();
             },
+            roomOverride: function () {
+                let regex = /(.*)\/([0-9]*)\.([0-9]*)/;
+                if (this.roomOverride.match(regex)) {
+                    let match = regex.exec(this.roomOverride);
+                    let room = {'building_key': match[1], 'level': parseInt(match[2]), 'number': parseInt(match[3])};
+                    room['display'] = this.get_room_display_name(match[1].toString().toUpperCase(), match[2], match[3]);
+                    this.$store
+                        .dispatch('loadRoomStaircaseCoord', {'room': room})
+                        .then();
+                }
+            }
         },
     }
 </script>
