@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navigation-bar/>
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col sm="12">
@@ -50,12 +51,12 @@
 </template>
 
 <script>
-
+    import NavigationBar from "./NavigationBar";
     import LectureSelector from "./LectureSelector";
 
     export default {
         name: 'home',
-        components: {LectureSelector},
+        components: {NavigationBar, LectureSelector},
         data() {
             return {
                 locomotion: null,

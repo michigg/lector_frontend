@@ -1,10 +1,5 @@
 <template>
     <div class="h-100">
-        <!-- <div class="info" style="height: 15%">
-             <span>Center: {{ center }}</span>
-             <span>Zoom: {{ zoom }}</span>
-             <span>Bounds: {{ bounds }}</span>
-         </div>-->
         <l-map
                 style="height: 100%; width: 100%"
                 :zoom="zoom"
