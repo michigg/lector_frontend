@@ -1,34 +1,39 @@
 <template>
-    <div class="options-wrapper">
-        <b-button id="popover-options" v-on:click="isActive = !isActive" squared variant="outline-secondary"
-                  class="options-btn bg-light">Options
-        </b-button>
-        <div v-bind:class="{ active: isActive }" class="options-popover bg-light">
-            Hier könnte Ihre Busverbindung stehen!
-        </div>
+    <div class="options-wrapper bg-light">
+        <a v-if="vgn_link" :href="vgn_link" target="_blank">VGN Verbindungen</a>
+        <p v-else>Hier könnte Ihre Busverbindung stehen!</p>
+        <!--        <div v-bind:class="{ active: isActive }" class="options-popover bg-light">-->
+
+        <!--            <a v-if="vgn_link" :href="vgn_link"></a>-->
+        <!--            <p v-else>Hier könnte Ihre Busverbindung stehen!</p>-->
+        <!--        </div>-->
     </div>
 </template>
 
 <script>
     export default {
-        name: "TextualRoute",
+        name: "Options",
         data() {
             return {
-                from: 'An der Weberei 5',
-                to: 'An der Universität 2',
-                duration: "20min",
-                items: [
-                    {'distance': '300m', 'street': 'Maria-Ward Straße'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                    {'distance': '1.2km', 'street': 'Berliner Ring'},
-                ],
-                title: 'Title',
-                content: 'Inhalte',
-                isActive: false
+                isActive: false,
+                vgn_link: "",
             }
         },
+        created() {
+            const user_position = this.$store.getters.getUserPosition;
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/vgn/?from_lon="
+                .concat(user_position[1])
+                .concat("&from_lat=").concat(user_position[0])
+                .concat("&building_key=").concat(this.$store.getters.getRoom.building_key);
+            window.axios.get(url)
+                .then(response => {
+                    console.log(response);
+                    this.vgn_link = response.data.url;
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
     }
 </script>
 
@@ -37,33 +42,14 @@
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 100%;
-        z-index: 500;
-    }
-
-    .options-btn {
-        position: fixed;
-        bottom: 0;
-        right: 0;
         width: 80%;
+        z-index: 500;
         height: 40px;
     }
 
-    .options-wrapper .options-popover {
-        height: 600px;
-        bottom: -640px;
-        width: 100%;
-        right: 0;
-        position: fixed;
-        padding: 5px;
-        overflow: scroll;
-        transition: bottom 0.5s;
-
-    }
-
-    .options-wrapper .options-popover.active {
-        bottom: 40px;
-        transition: bottom 0.5s;
+    .options-wrapper a, .options-wrapper p {
+        position: relative;
+        top: 8px;
     }
 
 </style>

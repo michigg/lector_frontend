@@ -39,6 +39,9 @@ export default new Vuex.Store({
             }
             return []
         },
+        getRoom: state => {
+            return state.to;
+        },
         getRooms: state => {
             return state.rooms;
         },
@@ -82,7 +85,7 @@ export default new Vuex.Store({
             return "Unbekannt"
         },
         getRouteTo: state => {
-            return state.to;
+            return state.to.display;
         },
         getPolyLineRoute: state => {
             if (state.routingData.paths) {
@@ -156,7 +159,7 @@ export default new Vuex.Store({
                 });
         },
         loadRoomStaircaseCoord(state, {room}) {
-            state.to = room.display;
+            state.to = room;
             state.to_coord = null;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircase/"
                 .concat("?building=").concat(room.building_key)
