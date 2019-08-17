@@ -101,7 +101,7 @@
 
             let options = {
                 enableHighAccuracy: false,
-                timeout: 5000,
+                timeout: Infinity,
                 maximumAge: 0
             };
 
