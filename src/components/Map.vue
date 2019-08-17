@@ -98,11 +98,15 @@
             //             .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
             //             .then();
             //     });
-            navigator.geolocation.getCurrentPosition(this.geo_success, this.geo_error, {
-                enableHighAccuracy: true,
-                maximumAge: 4000, // should be default, just in case
-                timeout: 500000000000000
-            });
+
+            let options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 0
+            };
+
+            // navigator.geolocation.getCurrentPosition(this.geo_success, this.geo_error, options);
+            navigator.geolocation.watchPosition(this.geo_success, this.geo_error, options);
             // this.$watchLocation(locationOptions)
             //     .then(coordinates => {
             //         console.log(coordinates);
