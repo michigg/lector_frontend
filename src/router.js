@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Routing from './views/Routing.vue'
 import OpenSpaces from "./views/OpenSpaces";
-import Graph from "./views/Graph";
+import Loading from "./views/Loading";
 import Infos from "./views/Infos";
 import OpenSpaceDetail from "./views/OpenSpaceDetail";
 
@@ -42,9 +42,9 @@ export default new Router({
             props: true
         },
         {
-            path: '/graph',
-            name: 'Graph',
-            component: Graph
+            path: '/wait',
+            name: 'Loading',
+            component: Loading
         },
         {
             path: '/infos',

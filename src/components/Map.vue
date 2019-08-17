@@ -47,7 +47,6 @@
                 this.bounds = bounds;
             },
             geo_success(position) {
-                console.log("Location Changed");
                 this.$store
                     .dispatch('setUserPosition', {'user_position': [position.coords.latitude, position.coords.longitude]})
                     .then();
@@ -71,52 +70,13 @@
             },
         },
         created() {
-            // if ("geolocation" in navigator) {
-            //     /* geolocation funktioniert */
-            //
-            //
-            //     var geo_options = {
-            //         enableHighAccuracy: true,
-            //         maximumAge: 30000,
-            //         timeout: 27000
-            //     };
-            //     var watchID = navigator.geolocation.watchPosition(this.geo_success, this.geo_error, geo_options);
-            //     console.log(watchID)
-            // } else {
-            //     /* geolocation funktioniert NICHT */
-            //     console.error("Geolocation not provided!")
-            // }
-            // const locationOptions = {
-            //     enableHighAccuracy: true, //defaults to false
-            //     timeout: 5000, //defaults to Infinity
-            //     maximumAge: 0 //defaults to 0
-            //
-            // };
-            // this.$getLocation(locationOptions)
-            //     .then(coordinates => {
-            //         this.$store
-            //             .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
-            //             .then();
-            //     });
-
             let options = {
                 enableHighAccuracy: false,
                 timeout: Infinity,
                 maximumAge: 0
             };
 
-            // navigator.geolocation.getCurrentPosition(this.geo_success, this.geo_error, options);
             navigator.geolocation.watchPosition(this.geo_success, this.geo_error, options);
-            // this.$watchLocation(locationOptions)
-            //     .then(coordinates => {
-            //         console.log(coordinates);
-            //     })
-            // this.$watchLocation(locationOptions)
-            //     .then(coordinates => {
-            //         this.$store
-            //             .dispatch('setUserPosition', {'user_position': [coordinates.lat, coordinates.lng]})
-            //             .then();
-            //     });
         }
     }
 </script>

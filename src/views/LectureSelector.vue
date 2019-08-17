@@ -5,7 +5,7 @@
                 <h3 class="mb-1">Veranstaltungsraumsuche</h3>
                 <b-form-input v-model="token" placeholder="Veranstaltung oder Raum"></b-form-input>
             </b-col>
-            <b-col xs="12" sm="8" md="5" xl="4" class="mb-3 mt-0 pt-0 text-center">
+            <b-col xs="11" sm="8" md="5" xl="4" class="mb-3 mt-0 pt-0 text-center">
                 <h3 class="mb-1">Raum Direkt setzen</h3>
                 <b-form-input v-model="roomOverride" placeholder="Raum Nummer (Bsp.: WE5/00.022)"></b-form-input>
             </b-col>
