@@ -11,25 +11,25 @@
         <LectureSelector/>
         <b-row class="justify-content-center">
             <!--            Locomotion-->
-            <b-col sm="12" class="mb-4">
-                <h2>Fortbewegung</h2>
-                <b-button-group class="locomotion-btn-group">
-                    <b-button
-                            squared
-                            variant="primary"
-                            v-on:click="locomotion = 'foot'"
-                            class="locomotion-btn"
-                    >Zu Fuß
-                    </b-button>
-                    <b-button
-                            squared
-                            variant="info"
-                            v-on:click="locomotion = 'bike2'"
-                            class="locomotion-btn"
-                    >Fahrrad
-                    </b-button>
-                </b-button-group>
-            </b-col>
+            <!--            <b-col sm="12" class="mb-4">-->
+            <!--                <h2>Fortbewegung</h2>-->
+            <!--                <b-button-group class="locomotion-btn-group">-->
+            <!--                    <b-button-->
+            <!--                            squared-->
+            <!--                            variant="primary"-->
+            <!--                            v-on:click="locomotion = 'foot'"-->
+            <!--                            class="locomotion-btn"-->
+            <!--                    >Zu Fuß-->
+            <!--                    </b-button>-->
+            <!--                    <b-button-->
+            <!--                            squared-->
+            <!--                            variant="info"-->
+            <!--                            v-on:click="locomotion = 'bike2'"-->
+            <!--                            class="locomotion-btn"-->
+            <!--                    >Fahrrad-->
+            <!--                    </b-button>-->
+            <!--                </b-button-group>-->
+            <!--            </b-col>-->
         </b-row>
         <b-row class="justify-content-center">
             <b-col sm="12">
@@ -43,8 +43,11 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col sm="12">
+            <b-col v-if="selected" sm="12">
                 <router-link to="/routing" class="btn btn-success">Navigation starten</router-link>
+            </b-col>
+            <b-col v-else sm="12">
+                <button class="btn btn-secondary isDisabled" disabled>Navigation starten</button>
             </b-col>
         </b-row>
     </div>
@@ -59,7 +62,7 @@
         components: {NavigationBar, LectureSelector},
         data() {
             return {
-                locomotion: null,
+                locomotion: "foot",
             }
         },
         computed: {
@@ -102,6 +105,9 @@
                     .then();
             }
         },
+        created() {
+
+        }
     }
 </script>
 
@@ -110,6 +116,5 @@
         width: 300px;
         height: 150px;
     }
-
 
 </style>

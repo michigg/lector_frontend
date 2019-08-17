@@ -10,10 +10,7 @@ export default new Vuex.Store({
         route: 0,
         lectures: {},
         rooms: [],
-        to_coord: [
-            49.89348707885022,
-            10.887494087219238
-        ],
+        to_coord: null,
         to: "",
         user_position: [
             49.900052680341155,

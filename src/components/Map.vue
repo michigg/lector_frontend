@@ -52,8 +52,22 @@
                     .dispatch('setUserPosition', {'user_position': [position.coords.latitude, position.coords.longitude]})
                     .then();
             },
-            geo_error() {
-                alert("Entschuldigung, keine Positionsinformationen sind verfügbar.");
+            geo_error(error) {
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        alert("An unknown error occurred.");
+                        break;
+                }
+
             },
         },
         created() {
@@ -87,7 +101,7 @@
             navigator.geolocation.getCurrentPosition(this.geo_success, this.geo_error, {
                 enableHighAccuracy: true,
                 maximumAge: 4000, // should be default, just in case
-                timeout: 5000
+                timeout: 500000000000000
             });
             // this.$watchLocation(locationOptions)
             //     .then(coordinates => {
