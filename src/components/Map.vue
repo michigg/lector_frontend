@@ -1,6 +1,6 @@
 <template>
     <div class="h-100">
-        <l-map
+        <l-map v-if="center && goal"
                 style="height: 100%; width: 100%"
                 :zoom="zoom"
                 :center="center"
@@ -8,26 +8,42 @@
                 @update:bounds="boundsUpdated"
         >
             <l-tile-layer :url="url"></l-tile-layer>
-            <l-marker :lat-lng="center"></l-marker>
+            <l-marker :lat-lng="center">
+                <l-icon :icon-anchor="[4, 24]" :icon-size="[10,20]">
+                    <font-awesome-icon icon="male" size="2x"/>
+                </l-icon>
+            </l-marker>
+<!--            <l-marker :lat-lng="lineStart">-->
+<!--                <l-icon :icon-anchor="[8, 10]" :icon-size="[10,10]">-->
+<!--                    <font-awesome-icon icon="circle" size="1x" class="text-primary"/>-->
+<!--                </l-icon>-->
+<!--            </l-marker>-->
+            <l-marker v-if="goal" :lat-lng="goal">
+                <l-icon :icon-anchor="[4, 24]" :icon-size="[10,20]">
+                    <font-awesome-icon icon="flag" size="2x"/>
+                </l-icon>
+            </l-marker>
             <l-polyline
                     :lat-lngs="getPolyLine"
-                    color="green">
+                    color="#007bff">
             </l-polyline>
         </l-map>
+        <div v-else class="h-100 text-center mt-5 h1">Es wurde leider keine Route gefunden</div>
     </div>
 </template>
 
 <script>
-    import {LMap, LTileLayer, LMarker, LPolyline} from 'vue2-leaflet'
+    import {LMap, LTileLayer, LMarker, LPolyline, LIcon} from 'vue2-leaflet'
 
     export default {
         name: "leaflet-map",
-        components: {LMap, LTileLayer, LMarker, LPolyline},
+        components: {LMap, LTileLayer, LMarker, LPolyline, LIcon},
         data() {
             return {
                 url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                 zoom: 18,
                 bounds: null,
+                iconSize: 10,
             }
         },
         computed: {
@@ -37,6 +53,12 @@
             center() {
                 return this.$store.getters.getUserPosition
             },
+            goal() {
+                return this.$store.getters.getToCoord
+            },
+            // lineStart() {
+            //     return this.$store.getters.getPolyLineRoute[0]
+            // },
         },
 
         methods: {
@@ -66,14 +88,13 @@
                         alert("An unknown error occurred.");
                         break;
                 }
-
             },
         },
         created() {
             let options = {
                 enableHighAccuracy: false,
                 timeout: Infinity,
-                maximumAge: 0
+                maximumAge: 30000
             };
 
             navigator.geolocation.watchPosition(this.geo_success, this.geo_error, options);
