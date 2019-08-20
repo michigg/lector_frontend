@@ -1,7 +1,8 @@
 <template>
     <div class="textual-route-wrapper">
-        <b-button block squared variant="outline-secondary" href="#" v-on:click="isActive = !isActive"
-                  class="bg-light textual-route-btn" v-if="routingData.length > 0">{{from | get_street_name}} - {{to | get_street_name}}
+        <b-button block squared variant="outline-primary" href="#" v-on:click="isActive = !isActive"
+                  class="bg-white textual-route-btn" v-if="routingData.length > 0">{{from | get_street_name}} - {{to |
+            get_street_name}}
             ({{duration}}min)
             <router-link to="/">
                 <font-awesome-icon icon="home"/>
@@ -10,15 +11,16 @@
         <b-button block squared variant="outline-secondary" href="#" v-on:click="isActive = !isActive"
                   class="bg-light textual-route-btn" v-else>
             Keine Route gefunden!
-            <router-link to="/"><font-awesome-icon icon="home"/></router-link>
+            <router-link to="/">
+                <font-awesome-icon icon="home"/>
+            </router-link>
         </b-button>
         <div class="textual-route-description" v-bind:class="{ active: isActive }" v-if="routingData.length > 0">
             <ul class="list-group">
-                <!-- eslint-disable-next-line -->
-                <li v-for="step in routingData" class="list-group-item">
-                    <p v-if="step.street_name"> {{step.street_name | get_street_name}} ({{step.distance |round_meter }}m
-                        | {{step.time | to_minutes}})</p>
-                    <p>{{step.text}}</p>
+                <li v-for="(step, index) in routingData" v-bind:key="index" class="list-group-item" :class="{ 'active': index === 0 }">
+                    <span class="route-description-elem">{{step.text}}</span>
+                    <span class="d-block" v-if="step.street_name"> {{step.street_name | get_street_name}} ({{step.distance |round_meter }}m
+                        | {{step.time | to_minutes}})</span>
                 </li>
             </ul>
         </div>
@@ -39,6 +41,9 @@
         computed: {
             routingData() {
                 return this.$store.getters.getTextualRoute
+            },
+            nextStep() {
+                return this.$store.getters.getTextualRoute[0]
             },
             duration() {
                 return this.$store.getters.getRouteDuration
@@ -73,20 +78,11 @@
 </script>
 
 <style>
-
-    .textual-route-wrapper {
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 500;
-    }
-
-
     .textual-route-wrapper {
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 500;
+        z-index: 2000;
     }
 
     .textual-route-btn {
@@ -94,14 +90,14 @@
         top: 0;
         width: 100%;
         height: 40px;
+        z-index: 2000;
     }
 
     .textual-route-wrapper .textual-route-description {
         width: 100%;
-        top: -640px;
+        top: calc((100% - 40px) * -1);
         position: fixed;
-        padding: 5px;
-        height: 600px;
+        height: calc(100% - 40px);
         overflow: scroll;
         transition: top 0.5s;
 
@@ -110,6 +106,10 @@
     .textual-route-wrapper .textual-route-description.active {
         top: 40px;
         transition: top 0.5s;
+    }
+
+    .route-description-elem{
+        font-weight: 600;
     }
 
 </style>
