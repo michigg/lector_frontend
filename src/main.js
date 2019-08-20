@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
-import {faSpinner, faWheelchair, faMapPin, faDoorOpen, faTimes} from '@fortawesome/free-solid-svg-icons'
+import {faSpinner, faWheelchair, faMapPin, faDoorOpen, faTimes, faMale, faFlag, faCircle} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueGeolocation from 'vue-browser-geolocation';
@@ -20,6 +20,9 @@ library.add(faWheelchair);
 library.add(faMapPin);
 library.add(faDoorOpen);
 library.add(faTimes);
+library.add(faMale);
+library.add(faFlag);
+library.add(faCircle);
 
 // fix icon for marker
 import {Icon} from 'leaflet'
@@ -33,7 +36,6 @@ Icon.Default.mergeOptions({
 });
 
 Vue.use(BootstrapVue);
-Vue.use(require('vue-moment'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 Vue.use(VueGeolocation);
