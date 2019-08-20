@@ -12,6 +12,7 @@ export default new Vuex.Store({
         rooms: [],
         to_coord: null,
         to: "",
+        to_staircase: {},
         user_position: [
             49.900052680341155,
             10.8984375
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         },
         getToCoord: state => {
             return state.to_coord
+        },
+        getToStaircase: state => {
+            return state.to_staircase
         },
         getUserPosition: state => {
             return state.user_position
@@ -158,13 +162,14 @@ export default new Vuex.Store({
         loadRoomStaircaseCoord(state, {room}) {
             state.to = room;
             state.to_coord = null;
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircase/"
-                .concat("?building=").concat(room.building_key)
-                .concat("&level=").concat(room.level)
-                .concat("&number=").concat(room.number);
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircases/"
+                .concat(room.building_key).concat("/")
+                .concat(room.level).concat("/")
+                .concat(room.number).concat("/");
             axios.get(url)
                 .then(response => {
-                    state.to_coord = [response.data.latitude, response.data.longitude];
+                    state.to_coord = [response.data.coord[1], response.data.coord[0]];
+                    state.to_staircase = response.data;
                 })
                 .catch(e => {
                     console.error(e)
