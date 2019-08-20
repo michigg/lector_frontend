@@ -54,8 +54,8 @@
 </template>
 
 <script>
-    import NavigationBar from "./NavigationBar";
-    import LectureSelector from "./LectureSelector";
+    import NavigationBar from "../components/NavigationBar";
+    import LectureSelector from "../components/LectureSelector";
 
     export default {
         name: 'home',

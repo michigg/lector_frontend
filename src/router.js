@@ -3,9 +3,11 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Routing from './views/Routing.vue'
 import OpenSpaces from "./views/OpenSpaces";
-import Loading from "./views/Loading";
+import Loading from "./components/Loading";
 import Infos from "./views/Infos";
 import OpenSpaceDetail from "./views/OpenSpaceDetail";
+import IndoorMapDetail from "./views/IndoorMapDetail";
+import IndoorMaps from "./views/IndoorMaps";
 
 Vue.use(Router);
 
@@ -39,6 +41,16 @@ export default new Router({
             path: '/open-space',
             name: 'OpenSpaceDetail',
             component: OpenSpaceDetail,
+            props: true
+        },
+        {
+            path: '/buildings',
+            name: 'IndoorMaps',
+            component: IndoorMaps
+        }, {
+            path: '/building',
+            name: 'IndoorMapDetail',
+            component: IndoorMapDetail,
             props: true
         },
         {

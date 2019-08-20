@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
-import {faSpinner} from '@fortawesome/free-solid-svg-icons'
+import {faSpinner, faWheelchair, faMapPin, faDoorOpen} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueGeolocation from 'vue-browser-geolocation';
@@ -16,6 +16,9 @@ import VueGeolocation from 'vue-browser-geolocation';
 
 library.add(faHome);
 library.add(faSpinner);
+library.add(faWheelchair);
+library.add(faMapPin);
+library.add(faDoorOpen);
 
 // fix icon for marker
 import {Icon} from 'leaflet'
@@ -58,6 +61,13 @@ Vue.filter("format_time", value => {
     return time[0] + ':' + time[1];
 });
 
+Vue.filter("format_file_name", value => {
+    return value.toString().split('.')[0].toString().toLowerCase();
+});
+
+Vue.filter("reverse_arr", value => {
+    return value.reverse();
+});
 window.axios = axios;
 
 new Vue({

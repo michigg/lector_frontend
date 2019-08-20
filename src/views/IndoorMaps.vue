@@ -4,14 +4,14 @@
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col xs="12">
-                <h1>Open Space GeoJsons</h1>
+                <h1>Indoor Maps Jsons</h1>
             </b-col>
         </b-row>
         <b-row>
             <b-col xs="12" sm="12" lg="12" xl="12">
-                <b-list-group-item v-for="(openSpace, index) in openSpaces" :key="index">
-                    <router-link :to="{ name: 'OpenSpaceDetail', params: {file_name: openSpace.file_name}}" class="file-name">
-                        {{openSpace.file_name | format_file_name}}
+                <b-list-group-item v-for="(building, index) in buildings" :key="index">
+                    <router-link :to="{ name: 'IndoorMapDetail', params: {file_name: building.file_name}}" class="file-name">
+                        {{building.file_name | format_file_name}}
                     </router-link>
                 </b-list-group-item>
             </b-col>
@@ -25,16 +25,17 @@
     export default {
         name: 'home',
         components: {NavigationBar},
+        props: ['file_name'],
         data() {
             return {
-                openSpaces: []
+                buildings: []
             }
         },
         created: function () {
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-space/";
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/buildings/";
             window.axios.get(url)
                 .then(response => {
-                    this.openSpaces = response.data;
+                    this.buildings = response.data;
                 })
                 .catch(e => {
                     console.error(e)
@@ -49,7 +50,7 @@
         height: 150px;
     }
     .file-name {
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
 </style>

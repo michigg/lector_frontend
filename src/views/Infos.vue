@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import NavigationBar from "./NavigationBar";
+    import NavigationBar from "../components/NavigationBar";
 
     export default {
         name: 'home',
