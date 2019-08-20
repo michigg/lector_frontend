@@ -14,7 +14,7 @@
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
                    v-if="token && lecturesBefore.length == 0 && lecturesAfter.length == 0 && !lecturesLoaded">
                 <p>Vorlesungsergebnisse Loading...</p>
-                <font-awesome-icon icon="spinner" spin pulse size="6x"/>
+                <b-spinner  style="width: 5rem; height: 5rem;" label="Large Spinner" class="card-link"></b-spinner>
             </b-col>
             <b-col xs="12" sm="12" md="8" xl="8"
                    v-else-if="lecturesBefore.length > 0 || lecturesAfter.length > 0">
@@ -78,7 +78,7 @@
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
                    v-if="token && searched_rooms.length == 0 && !roomsLoaded">
                 <p>Raumergebnisse Loading...</p>
-                <font-awesome-icon icon="spinner" spin pulse size="6x"/>
+                <b-spinner  style="width: 5rem; height: 5rem;" label="Large Spinner" class="card-link"></b-spinner>
             </b-col>
             <b-col xs="12" sm="12" md="8" xl="8" v-else-if="searched_rooms.length != 0">
                 <b-row>
@@ -183,7 +183,7 @@
                     .then();
             },
             roomOverride: function () {
-                let regex = /([a-zA-Z]*[0-9]*)\/([0-9]{2})\.([0-9]{2,3})/;
+                let regex = /([a-zA-Z]*[0-9]*)\/([0-9]{2})\.([0-9]{2,3})$/;
                 if (this.roomOverride.match(regex)) {
                     let match = regex.exec(this.roomOverride);
                     let room = {'building_key': match[1], 'level': parseInt(match[2]), 'number': parseInt(match[3])};
