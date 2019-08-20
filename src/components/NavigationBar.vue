@@ -10,9 +10,9 @@
             <b-nav-item>
                 <router-link to="/buildings">Indoor Maps</router-link>
             </b-nav-item>
-            <b-nav-item>
-                <router-link to="/infos">Infos</router-link>
-            </b-nav-item>
+<!--            <b-nav-item>-->
+<!--                <router-link to="/infos">Infos</router-link>-->
+<!--            </b-nav-item>-->
         </b-nav>
     </div>
 </template>
