@@ -10,7 +10,7 @@
             <!--            Heading-->
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center">
                 <p>Lade...</p>
-                <font-awesome-icon icon="spinner" spin pulse size="6x"/>
+                <b-spinner  style="width: 5rem; height: 5rem;" label="Large Spinner" class="card-link"></b-spinner>
             </b-col>
         </b-row>
     </div>
