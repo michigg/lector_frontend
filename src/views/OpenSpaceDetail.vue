@@ -2,30 +2,41 @@
     <div class="h-100">
         <navigation-bar/>
         <b-row class="justify-content-center">
-            <!--            Heading-->
-            <b-col xs="12">
-                <h1>Open Space {{file_name}}</h1>
-                <p><a :href="geojsonioLink" target="_blank">Bearbeiten in geojson.io</a></p>
-                <button class="btn btn-primary" v-if="!openSpacePlotUrl" v-on:click="this.getCurrentOpenSpacePlotUrl">
-                    Plot erstellen
-                </button>
-                <p><a v-if="openSpacePlotUrl" :href="openSpacePlotUrl" target="_blank">Plot</a></p>
-            </b-col>
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
-                   v-if="loadOpenSpacePlot">
-                <p>Plot wird erstellt...</p>
-                <font-awesome-icon icon="spinner" spin pulse size="6x"/>
-            </b-col>
-        </b-row>
-        <b-row class="h-100">
-            <b-col xs="12" sm="12" lg="12" xl="12" class="h-100">
-                <div class="map-wrapper h-100">
-                    <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center"
-                           :options="{zoomControl: false}">
-                        <l-tile-layer :url="url"></l-tile-layer>
-                        <l-geo-json :geojson="openSpace"></l-geo-json>
-                    </l-map>
-                </div>
+            <b-col xs="12" sm="9" md="7" lg="6" xl="6" class="text-center"
+                   v-if="openSpace">
+
+                <h1>Open Space <span class="openspace-name">{{openSpace.file_name | format_file_name}}</span></h1>
+                <b-card no-body>
+                    <b-card-body>
+                        <b-card-title>Konfiguration</b-card-title>
+                        <b-card-sub-title class="mb-2">{{openSpace.file_name}}</b-card-sub-title>
+                    </b-card-body>
+
+                    <b-list-group flush>
+                        <b-list-group-item>Freifläche Knoten: {{openSpace.walkable_area_nodes}}</b-list-group-item>
+                        <b-list-group-item>Eingeschränkte Flächen: {{openSpace.restricted_areas}}</b-list-group-item>
+                        <b-list-group-item>Gesperrte Flächen: {{openSpace.blocked_areas}}</b-list-group-item>
+                        <b-list-group-item>Zugänge: {{openSpace.entry_points}}</b-list-group-item>
+                        <b-list-group-item>Universitätsgebäude: {{openSpace.buildings}}</b-list-group-item>
+                    </b-list-group>
+
+                    <b-card-body>
+                        <!--                        <a href="#" class="card-link">Card link</a>-->
+                        <button class="card-link btn btn-link" v-if="!openSpacePlotUrl && !loadOpenSpacePlot"
+                                v-on:click="this.getCurrentOpenSpacePlotUrl">
+                            Plot erstellen
+                        </button>
+                        <button disabled class="card-link btn btn-link" v-if="loadOpenSpacePlot"
+                                v-on:click="this.getCurrentOpenSpacePlotUrl">
+                            <b-spinner small label="Large Spinner" class="card-link"></b-spinner>
+                            Plot wird erstellt...
+                        </button>
+
+                        <a v-if="openSpacePlotUrl" :href="openSpacePlotUrl" class="card-link" target="_blank">Plot
+                            ansehen</a>
+                        <a :href="geojsonioLink" target="_blank" class="card-link">Ansehen/Bearbeiten</a>
+                    </b-card-body>
+                </b-card>
             </b-col>
         </b-row>
     </div>
@@ -33,18 +44,19 @@
 
 <script>
     import NavigationBar from "../components/NavigationBar";
-    import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet'
+    // import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet'
 
     export default {
         name: 'openSpaceDetail',
         props: ['file_name'],
-        components: {LMap, LTileLayer, LGeoJson, NavigationBar},
+        components: {NavigationBar},
         data() {
             return {
-                openSpace: {
+                openSpaceGeojson: {
                     "type": "FeatureCollection",
                     "features": []
                 },
+                openSpace: null,
                 url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                 zoom: 18,
                 bounds: null,
@@ -53,46 +65,26 @@
             }
         },
         created: function () {
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-space/?file_name=".concat(this.file_name);
-            window.axios.get(url)
+            const geojsonUrl = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-spaces/".concat(this.file_name).concat("/geojson/");
+            window.axios.get(geojsonUrl)
                 .then(response => {
-                    this.openSpace = response.data.geojson;
+                    this.openSpaceGeojson = response.data.geojson;
+                })
+                .catch(e => {
+                    console.error(e)
+                });
+            const configUrl = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-spaces/".concat(this.file_name).concat("/config/");
+            window.axios.get(configUrl)
+                .then(response => {
+                    this.openSpace = response.data;
                 })
                 .catch(e => {
                     console.error(e)
                 });
         },
         computed: {
-            center() {
-                let min_lat = 360;
-                let max_lat = -360;
-                let min_lon = 360;
-                let max_lon = -360;
-                for (const feature of this.openSpace.features) {
-                    if (feature.properties.walkable == "True") {
-                        for (const coordinate of feature.geometry.coordinates[0]) {
-                            if (coordinate[1] < min_lat) {
-                                min_lat = coordinate[1]
-                            }
-                            if (coordinate[1] > max_lat) {
-                                max_lat = coordinate[1]
-                            }
-                            if (coordinate[0] < min_lon) {
-                                min_lon = coordinate[0]
-                            }
-                            if (coordinate[0] > max_lon) {
-                                max_lon = coordinate[0]
-                            }
-                        }
-                        const lat = min_lat + (max_lat - min_lat) / 2;
-                        const lon = min_lon + (max_lon - min_lon) / 2;
-                        return [lat, lon];
-                    }
-                }
-                return this.$store.getters.getUserPosition
-            },
             geojsonioLink() {
-                return "http://geojson.io/#data=data:application/json,".concat(JSON.stringify(this.openSpace));
+                return "http://geojson.io/#data=data:application/json,".concat(JSON.stringify(this.openSpaceGeojson));
             },
         },
         methods: {
@@ -104,7 +96,7 @@
             },
             getCurrentOpenSpacePlotUrl() {
                 this.loadOpenSpacePlot = true;
-                const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-space/plot/?file_name=".concat(this.file_name);
+                const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-spaces/".concat(this.file_name).concat("/plot/");
                 window.axios.get(url)
                     .then(response => {
                         this.openSpacePlotUrl = "" + process.env.VUE_APP_LECTOR_DOMAIN + response.data.url;

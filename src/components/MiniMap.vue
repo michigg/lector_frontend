@@ -17,6 +17,11 @@
                     <font-awesome-icon icon="wheelchair" size="1x" class="d-inline-block text-primary"/>
                 </l-icon>
             </l-marker>
+            <l-marker v-if="blockedCoord" :lat-lng="blockedCoord" >
+                <l-icon :icon-anchor="dynamicAnchor" :icon-size="dynamicSize">
+                    <font-awesome-icon icon="times" size="2x" class="d-inline-block text-danger"/>
+                </l-icon>
+            </l-marker>
             <l-marker v-for="(entry, index) in reverseEntries" v-bind:key="index" :lat-lng="entry.latlon_coord">
                 <l-icon :icon-anchor="dynamicAnchor" :icon-size="dynamicSize">
                     <font-awesome-icon icon="door-open" size="2x" class="d-inline-block"/>
@@ -25,6 +30,11 @@
             <l-marker v-for="(entry, index) in reverseWheelChairEntries" v-bind:key="'wheel'+index" :lat-lng="entry.latlon_coord">
                 <l-icon :icon-anchor="wheelchairAnchorSize" :icon-size="wheelchairSize">
                     <font-awesome-icon icon="wheelchair" size="1x" class="d-inline-block text-primary"/>
+                </l-icon>
+            </l-marker>
+            <l-marker v-for="(entry, index) in reverseBlockedEntries" v-bind:key="'blocked'+index" :lat-lng="entry.latlon_coord">
+                <l-icon :icon-anchor="blockedAnchor" :icon-size="dynamicSize">
+                    <font-awesome-icon icon="times" size="3x" class="d-inline-block text-danger"/>
                 </l-icon>
             </l-marker>
         </l-map>
@@ -53,10 +63,6 @@
             boundsUpdated(bounds) {
                 this.bounds = bounds;
             },
-            // reverseCoord(val){
-            //     let new_point = val.slice();
-            //     return new_point.reverse();
-            // }
         },
         computed: {
             dynamicSize() {
@@ -67,6 +73,9 @@
             },
             wheelchairAnchorSize() {
                 return [12, 34];
+            },
+            blockedAnchor() {
+                return [7, 30];
             },
             wheelchairStaircaseSize() {
                 return [this.iconSize + 30, this.iconSize * 1.15];
@@ -81,7 +90,13 @@
                 if (this.staircase.wheelchair){
                     return [this.staircase.coord[1], [this.staircase.coord[0]]];
                 }
-                return []
+                return null
+            },
+            blockedCoord() {
+                if (this.staircase.blocked && this.isBlocked(this.staircase.blocked)){
+                    return [this.staircase.coord[1], [this.staircase.coord[0]]];
+                }
+                return null
             },
             reverseEntries() {
                 let reversedEntries = [];
@@ -95,6 +110,16 @@
                 let reversedEntries = [];
                 for (const entry of this.staircase.entries) {
                     if (entry.wheelchair){
+                        reversedEntries.push(entry)
+                    }
+                }
+                return reversedEntries;
+            },
+            reverseBlockedEntries() {
+                let reversedEntries = [];
+                for (const entry of this.staircase.entries) {
+                    if (entry.blocked && this.isBlocked(entry.blocked)){
+                        this.isBlocked(entry.blocked);
                         reversedEntries.push(entry)
                     }
                 }

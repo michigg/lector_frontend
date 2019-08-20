@@ -10,7 +10,7 @@
         <b-row>
             <b-col xs="12" sm="12" lg="12" xl="12">
                 <b-list-group-item v-for="(openSpace, index) in openSpaces" :key="index">
-                    <router-link :to="{ name: 'OpenSpaceDetail', params: {file_name: openSpace.file_name}}" class="file-name">
+                    <router-link :to="{ name: 'OpenSpaceDetail', params: {file_name: openSpace.file_name}}" class="openspace-name">
                         {{openSpace.file_name | format_file_name}}
                     </router-link>
                 </b-list-group-item>
@@ -31,7 +31,7 @@
             }
         },
         created: function () {
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-space/";
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/open-spaces/";
             window.axios.get(url)
                 .then(response => {
                     this.openSpaces = response.data;
@@ -48,8 +48,4 @@
         width: 300px;
         height: 150px;
     }
-    .file-name {
-        text-transform: capitalize;
-    }
-
 </style>

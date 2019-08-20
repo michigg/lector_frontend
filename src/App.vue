@@ -38,4 +38,11 @@
         padding-right: 0 !important;
     }
 
+    .building-key{
+        text-transform: uppercase;
+    }
+    .openspace-name{
+        text-transform: capitalize;
+    }
+
 </style>

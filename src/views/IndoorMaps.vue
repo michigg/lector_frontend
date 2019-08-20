@@ -10,7 +10,7 @@
         <b-row>
             <b-col xs="12" sm="12" lg="12" xl="12">
                 <b-list-group-item v-for="(building, index) in buildings" :key="index">
-                    <router-link :to="{ name: 'IndoorMapDetail', params: {file_name: building.file_name}}" class="file-name">
+                    <router-link :to="{ name: 'IndoorMapDetail', params: {file_name: building.file_name}}" class="building-key">
                         {{building.file_name | format_file_name}}
                     </router-link>
                 </b-list-group-item>
