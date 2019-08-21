@@ -10,75 +10,11 @@
                 <b-form-input v-model="roomOverride" placeholder="Raum Nummer (Bsp.: WE5/00.022)"></b-form-input>
             </b-col>
         </b-row>
+        <lecture-results :is-token="token"/>
         <b-row class="justify-content-center">
             <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
-                   v-if="token && lecturesBefore.length == 0 && lecturesAfter.length == 0 && !lecturesLoaded">
-                <p>Vorlesungsergebnisse Loading...</p>
-                <b-spinner  style="width: 5rem; height: 5rem;" label="Large Spinner" class="card-link"></b-spinner>
-            </b-col>
-            <b-col xs="12" sm="12" md="8" xl="8"
-                   v-else-if="lecturesBefore.length > 0 || lecturesAfter.length > 0">
-                <b-row>
-                    <b-col xs="12" class="mb-4">
-                        <button class="btn btn-primary w-100" v-on:click="lectureIsActive = !lectureIsActive">
-                            Vorlesungsergebnisse
-                        </button>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="mb-4 lecture"
-                           v-bind:class="{ active: lectureIsActive}" v-if="lecturesBefore && lecturesBefore.length > 0">
-                        <button class="btn btn-primary w-100"
-                                v-on:click="hideEarlierLectureResults = !hideEarlierLectureResults">
-                            Frühere Ergebnisse anzeigen
-                        </button>
-                    </b-col>
-                    <b-col v-for="lecture in lecturesBefore" :key="lecture.univis_key" xs="12" sm=6 md="6" lg="6" xl="4"
-                           v-bind:class="{ active: lectureIsActive, hiddenearlier: hideEarlierLectureResults }"
-                           class="mb-4 lecture">
-                        <div class="lecture-content p-1 h-100">
-                            <h5>{{lecture.name}}</h5>
-                            <b-row>
-                                <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
-                                    <button class="btn btn-primary" @click="selected = term.room">
-                                        <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
-                                        <p>{{term.room.building_key | do_room_number(term.room.level,
-                                            term.room.number)}}</p>
-                                    </button>
-                                </b-col>
-                            </b-row>
-                        </div>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="mb-4 text-center lecture"
-                           v-bind:class="{ active: lectureIsActive}" v-if="lecturesAfter && lecturesAfter.length > 0">
-                        <h3>Aktuell Kommende</h3>
-                    </b-col>
-                    <b-col v-for="lecture in lecturesAfter" :key="lecture.univis_key" xs="12" sm="6" md="6" lg="6"
-                           xl="4"
-                           v-bind:class="{ active: lectureIsActive }"
-                           class="mb-4 lecture">
-                        <div class="lecture-content p-1 h-100">
-                            <h5>{{lecture.name}}</h5>
-                            <b-row>
-                                <b-col v-for="(term, index) in lecture.terms" :key="index" xs="4" class="mb-4">
-                                    <button class="btn btn-primary" @click="selected = term.room">
-                                        <h5 class="pb-0 mb-0">Ab {{term.starttime | format_time}}</h5>
-                                        <p>{{term.room.building_key | do_room_number(term.room.level,
-                                            term.room.number)}}</p>
-                                    </button>
-                                </b-col>
-                            </b-row>
-                        </div>
-                    </b-col>
-                </b-row>
-
-            </b-col>
-            <b-col xs="12" sm="12" md="12" lg="12" xl="12" class="text-center"
                    v-if="token && searched_rooms.length == 0 && !roomsLoaded">
-                <p>Raumergebnisse Loading...</p>
-                <b-spinner  style="width: 5rem; height: 5rem;" label="Large Spinner" class="card-link"></b-spinner>
+                <loading-animation :text="'Raumergebnisse Loading...'"></loading-animation>
             </b-col>
             <b-col xs="12" sm="12" md="8" xl="8" v-else-if="searched_rooms.length != 0">
                 <b-row>
@@ -102,16 +38,20 @@
     </div>
 </template>
 <script>
+    import LectureResults from "./LectureResults";
+    import LoadingAnimation from "./LoadingAnimation";
+
     export default {
         name: 'LectureSelector',
+        components: {LoadingAnimation, LectureResults},
         data() {
             return {
                 selected: null,
                 token: null,
                 currentTimeout: null,
-                lectureIsActive: true,
+                active: true,
                 roomIsActive: true,
-                hideEarlierLectureResults: true,
+                hideEarlier: true,
                 roomOverride: null,
             }
         },
@@ -122,20 +62,11 @@
             to_coord() {
                 return this.$store.getters.getToCoord
             },
-            lecturesBefore() {
-                return this.$store.getters.getLecturesBefore
-            },
-            lecturesAfter() {
-                return this.$store.getters.getLecturesAfter
-            },
             searched_rooms() {
                 return this.$store.getters.getRooms
             },
             roomsLoaded() {
                 return this.$store.getters.areRoomsLoaded
-            },
-            lecturesLoaded() {
-                return this.$store.getters.areLecturesLoaded
             },
         },
         methods: {
@@ -197,22 +128,9 @@
     }
 </script>
 <style scoped>
-    .lecture, .room {
-        display: none;
-    }
 
     .hiddenearlier {
         display: none !important;
-    }
-
-    .lecture.active, .room.active {
-        display: block;
-    }
-
-    .lecture-content {
-        -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
-        -moz-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
-        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.4);
     }
 
 
