@@ -5,7 +5,6 @@ import Routing from './views/Routing.vue'
 import OpenSpaces from "./views/OpenSpaces";
 import Loading from "./components/Loading";
 import StaircaseConfig from "./components/StaircaseConfig"
-import Infos from "./views/Infos";
 import OpenSpaceDetail from "./views/OpenSpaceDetail";
 import IndoorMapDetail from "./views/IndoorMapDetail";
 import IndoorMaps from "./views/IndoorMaps";
@@ -65,10 +64,5 @@ export default new Router({
             name: 'Loading',
             component: Loading
         },
-        {
-            path: '/infos',
-            name: 'Infos',
-            component: Infos
-        }
     ]
 })
