@@ -88,6 +88,10 @@
                     this.$store
                         .dispatch('loadRoomStaircaseCoord', {'room': room})
                         .then();
+                } else {
+                    this.$store
+                        .dispatch('reset')
+                        .then();
                 }
             }
         },

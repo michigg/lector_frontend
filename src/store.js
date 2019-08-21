@@ -211,5 +211,8 @@ export default new Vuex.Store({
         setModus(context, config) {
             context.commit('setModus', config);
         },
+        reset(context) {
+            context.commit('resetTo');
+        },
     },
 })

@@ -11,8 +11,6 @@
                 </router-link>
             </p>
         </div>
-
-
     </div>
 </template>
 

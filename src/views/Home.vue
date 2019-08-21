@@ -11,7 +11,7 @@
         </b-row>
         <LectureSelector/>
         <b-row class="justify-content-center">
-            <b-col sm="12" xl="4" class="text-center">
+            <b-col cols="12" sm="11" md="10" lg="9" xl="8" class="text-center">
                 <h2>Auswahl</h2>
                 <table class="table">
                     <tr>
