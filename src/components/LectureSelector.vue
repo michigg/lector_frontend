@@ -52,8 +52,8 @@
                 return this.$store.getters.getToCoord
             },
             hasNoResults() {
-                const noLectures = this.$store.getters.getLecturesBefore.length == 0 && this.$store.getters.getLecturesAfter.length == 0;
-                const noRooms = this.$store.getters.getRooms.length == 0;
+                const noLectures = this.$store.getters.getLecturesBefore.length === 0 && this.$store.getters.getLecturesAfter.length === 0;
+                const noRooms = this.$store.getters.getRooms.length === 0;
                 const noContents = noLectures && noRooms;
                 const notLoading = this.$store.getters.areRoomsLoaded && this.$store.getters.areLecturesLoaded;
                 return this.token && noContents && notLoading && !this.waiting;
@@ -68,7 +68,7 @@
             load_lectures_and_rooms(query) {
                 this.$store
                     .dispatch('loadLectures', {token: query})
-                    .then(console.log('Finished'));
+                    .then();
                 this.$store
                     .dispatch('loadRooms', {token: query})
                     .then();

@@ -34,7 +34,7 @@
         },
         methods: {
             openVGN() {
-                var newWindow = window.open("/wait");
+                let newWindow = window.open("/wait");
                 const user_position = this.$store.getters.getUserPosition;
                 const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/vgn/?from_lon="
                     .concat(user_position[1])
@@ -46,9 +46,7 @@
                         newWindow.focus()
                         // this.vgnLink = response.data.url
                     })
-                    .catch(e => {
-                        console.error(e);
-                    });
+                    .catch();
             }
         },
     }
