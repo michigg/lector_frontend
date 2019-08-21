@@ -5,49 +5,38 @@
             <!--            Heading-->
             <b-col sm="12">
                 <h1>Lector</h1>
+                <p>Finde deine Veranstaltung an der Universität Bamberg</p>
                 <h2>Konfiguration</h2>
             </b-col>
         </b-row>
         <LectureSelector/>
         <b-row class="justify-content-center">
-            <!--            Locomotion-->
-            <!--            <b-col sm="12" class="mb-4">-->
-            <!--                <h2>Fortbewegung</h2>-->
-            <!--                <b-button-group class="locomotion-btn-group">-->
-            <!--                    <b-button-->
-            <!--                            squared-->
-            <!--                            variant="primary"-->
-            <!--                            v-on:click="locomotion = 'foot'"-->
-            <!--                            class="locomotion-btn"-->
-            <!--                    >Zu Fuß-->
-            <!--                    </b-button>-->
-            <!--                    <b-button-->
-            <!--                            squared-->
-            <!--                            variant="info"-->
-            <!--                            v-on:click="locomotion = 'bike2'"-->
-            <!--                            class="locomotion-btn"-->
-            <!--                    >Fahrrad-->
-            <!--                    </b-button>-->
-            <!--                </b-button-group>-->
-            <!--            </b-col>-->
-        </b-row>
-        <b-row class="justify-content-center">
-            <b-col sm="12">
+            <b-col sm="12" xl="4" class="text-center">
                 <h2>Auswahl</h2>
-                <p v-if="selected">Raum: {{selected}}</p>
-                <p v-else>Veranstaltung: Nothing selected</p>
-                <p v-if="locomotion">Fortbewegungsart: {{locomotion}}</p>
-                <p v-else>Fortbewegungsart: Nothing selected</p>
-                <p v-if="to_coord">Zielpunkt: {{to_coord}}</p>
-                <p v-else>Zielpunkt: Nothing selected</p>
+                <table class="table">
+                    <tr>
+                        <td>Raum</td>
+                        <td v-if="selected" class="bg-success">{{selected}}</td>
+                        <td v-else class="bg-warning">Noch ausstehend</td>
+                    </tr>
+                    <tr>
+                        <td>Fortbewegungsart</td>
+                        <td v-if="locomotion" class="bg-success">{{locomotion}}</td>
+                        <td v-else class="bg-warning">Fehlt</td>
+                    </tr>
+                    <tr>
+                        <td>Zielpunkt</td>
+                        <td v-if="to_coord" class="bg-success"> <span>{{to_coord[0]}}, {{to_coord[1]}}</span></td>
+                        <td v-else class="bg-warning">Noch ausstehend</td>
+                    </tr>
+                </table>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col v-if="selected" sm="12">
-                <router-link to="/routing" class="btn btn-success">Navigation starten</router-link>
-            </b-col>
-            <b-col v-else sm="12">
-                <button class="btn btn-secondary isDisabled" disabled>Navigation starten</button>
+        <b-row class="justify-content-center mb-5">
+            <b-col cols="12" sm="11" md="10" lg="9" xl="8">
+                <router-link v-if="to_coord" to="/routing" class="btn btn-success w-100">Navigation starten
+                </router-link>
+                <button v-else class="btn btn-secondary isDisabled w-100" disabled>Navigation starten</button>
             </b-col>
         </b-row>
     </div>

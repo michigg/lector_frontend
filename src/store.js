@@ -129,6 +129,8 @@ export default new Vuex.Store({
                 });
         },
         loadLectures(state, {token}) {
+            state.to_coord = null;
+            state.to = null;
             state.lecturesLoaded = false;
             state.lectures = [];
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
@@ -139,13 +141,13 @@ export default new Vuex.Store({
                     console.log(state.lecturesLoaded);
                     state.lectures = response.data;
                 })
-                .catch(e => {
+                .catch(() => {
                     state.lecturesLoaded = true;
-                    console.error(e);
                     state.lectures = {};
                 });
         },
         loadRooms(state, {token}) {
+            state.selected = null;
             state.roomsLoaded = false;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
             axios.get(url)
@@ -153,9 +155,8 @@ export default new Vuex.Store({
                     state.roomsLoaded = true;
                     state.rooms = response.data;
                 })
-                .catch(e => {
+                .catch(() => {
                     state.roomsLoaded = true;
-                    console.error(e);
                     state.rooms = [];
                 });
         },
@@ -181,15 +182,23 @@ export default new Vuex.Store({
         setModus(state, {modus}) {
             state.modus = modus;
         },
+        resetTo(state) {
+            state.to = "";
+            state.to_coord = null;
+            state.to_staircase = {};
+            state.routingData = {}
+        },
     },
     actions: {
         loadRouting(context, config) {
             context.commit('loadRouting', config)
         },
         loadLectures(context, config) {
+            context.commit('resetTo');
             context.commit('loadLectures', config)
         },
         loadRooms(context, config) {
+            context.commit('resetTo');
             context.commit('loadRooms', config)
         },
         loadRoomStaircaseCoord(context, config) {

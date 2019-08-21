@@ -1,9 +1,8 @@
 <template>
     <b-row class="justify-content-center">
-        <b-col v-for="lecture in lectures" :key="lecture.univis_key" xs="12" sm="6" md="6" lg="6"
-               xl="4"
+        <b-col v-for="lecture in lectures" :key="lecture.univis_key" cols="12" sm="6" md="6" lg="6" xl="4"
                v-bind:class="{ active: active}"
-               class="mb-4 lecture">
+               class="mb-2 lecture px-1">
             <div class="lecture-content p-1 h-100 w-100">
                 <h5>{{lecture.name}}</h5>
                 <lecture-terms :lecture="lecture"/>

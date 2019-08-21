@@ -8,7 +8,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
-import {faSpinner, faWheelchair, faMapPin, faDoorOpen, faTimes, faMale, faFlag, faCircle} from '@fortawesome/free-solid-svg-icons'
+import {
+    faSpinner,
+    faWheelchair,
+    faMapPin,
+    faDoorOpen,
+    faTimes,
+    faMale,
+    faFlag,
+    faCircle
+} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueGeolocation from 'vue-browser-geolocation';
@@ -41,8 +50,28 @@ Vue.config.productionTip = false;
 Vue.use(VueGeolocation);
 Vue.mixin({
     methods: {
-        isBlocked: time => new Date() <= new Date(time)
-    }
+        isBlocked: time => new Date() <= new Date(time),
+        get_room_display_name: (building_key, level, number) => {
+            switch (number.toString().length) {
+                case 1:
+                    number = '00' + number;
+                    break;
+                case 2:
+                    number = '0' + number;
+                    break;
+                default:
+                    break;
+            }
+            switch (level.toString().length) {
+                case 1:
+                    level = '0' + level;
+                    break;
+                default:
+                    break;
+            }
+            return building_key + "/" + level + "." + number;
+        }
+    },
 });
 
 Vue.filter("do_room_number", (building_key, level, number) => {
