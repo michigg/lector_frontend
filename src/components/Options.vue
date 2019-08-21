@@ -1,9 +1,9 @@
 <template>
     <div class="options-wrapper bg-white">
-        <b-button id="popover-options" v-on:click="isActive = !isActive" squared variant="outline-secondary"
-                  class="options-btn bg-light">Options
+        <b-button id="popover-options" v-on:click="isActive = !isActive" squared variant="outline-primary"
+                  class="options-btn bg-white">Options
         </b-button>
-        <div v-bind:class="{ active: isActive }" class="options-popover bg-light">
+        <div v-bind:class="{ active: isActive }" class="options-popover bg-white">
             <button class="btn btn-link" v-on:click="openVGN">VGN Verbindungen</button>
             <p>
                 <router-link :to="{ name: 'StaircaseConfig', params: {staircase: staircase}}">
@@ -42,7 +42,6 @@
                     .then(response => {
                         newWindow.location = response.data.url;
                         newWindow.focus()
-                        // this.vgnLink = response.data.url
                     })
                     .catch();
             }
@@ -66,6 +65,10 @@
         width: 80%;
         height: 40px;
         z-index: 2000;
+    }
+
+    .options-btn:hover, .options-btn:focus {
+        color: var(--secondary) !important;
     }
 
     .options-wrapper .options-popover {

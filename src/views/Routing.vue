@@ -30,4 +30,8 @@
 </script>
 
 <style scoped>
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 </style>

@@ -106,4 +106,9 @@
     .leaflet-top {
         top: 45px !important;
     }
+    .map-wrapper{
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-top: 40px;
+    }
 </style>

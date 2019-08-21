@@ -15,10 +15,6 @@
         color: #2c3e50;
     }
 
-    #nav {
-        padding: 30px;
-    }
-
     #nav a {
         font-weight: bold;
         color: #2c3e50;
@@ -28,20 +24,17 @@
         color: #42b983;
     }
 
-    html, body, #app, .home{
+    html, body, #app, .home {
         height: 100%;
         margin: 0;
     }
 
-    .container-fluid {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
 
-    .building-key{
+    .building-key {
         text-transform: uppercase;
     }
-    .openspace-name{
+
+    .openspace-name {
         text-transform: capitalize;
     }
 

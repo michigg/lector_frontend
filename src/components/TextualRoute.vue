@@ -17,7 +17,8 @@
         </b-button>
         <div class="textual-route-description" v-bind:class="{ active: isActive }" v-if="routingData.length > 0">
             <ul class="list-group">
-                <li v-for="(step, index) in routingData" v-bind:key="index" class="list-group-item" :class="{ 'active': index === 0 }">
+                <li v-for="(step, index) in routingData" v-bind:key="index" class="list-group-item"
+                    :class="{ 'active': index === 0 }">
                     <span class="route-description-elem">{{step.text}}</span>
                     <span class="d-block" v-if="step.street_name"> {{step.street_name | get_street_name}} ({{step.distance |round_meter }}m
                         | {{step.time | to_minutes}})</span>
@@ -83,6 +84,8 @@
         top: 0;
         width: 100%;
         z-index: 2000;
+        margin-right: -15px;
+        margin-left: -15px;
     }
 
     .textual-route-btn {
@@ -91,6 +94,10 @@
         width: 100%;
         height: 40px;
         z-index: 2000;
+    }
+
+    .textual-route-btn:hover, .textual-route-btn:focus{
+        color: var(--secondary) !important;
     }
 
     .textual-route-wrapper .textual-route-description {
@@ -108,7 +115,7 @@
         transition: top 0.5s;
     }
 
-    .route-description-elem{
+    .route-description-elem {
         font-weight: 600;
     }
 
