@@ -16,7 +16,8 @@ import {
     faTimes,
     faMale,
     faFlag,
-    faCircle
+    faCircle,
+    faRoute
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
@@ -32,6 +33,7 @@ library.add(faTimes);
 library.add(faMale);
 library.add(faFlag);
 library.add(faCircle);
+library.add(faRoute);
 
 // fix icon for marker
 import {Icon} from 'leaflet'

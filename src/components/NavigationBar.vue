@@ -1,19 +1,15 @@
 <template>
     <div>
-        <b-nav>
-            <b-nav-item active>
-                <router-link to="/">Home</router-link>
-            </b-nav-item>
-            <b-nav-item>
-                <router-link to="/open-spaces">Open Spaces</router-link>
-            </b-nav-item>
-            <b-nav-item>
-                <router-link to="/buildings">Indoor Maps</router-link>
-            </b-nav-item>
-<!--            <b-nav-item>-->
-<!--                <router-link to="/infos">Infos</router-link>-->
-<!--            </b-nav-item>-->
-        </b-nav>
+        <b-navbar variant="faded" type="light">
+            <b-navbar-brand tag="h1" class="mb-0">
+                <font-awesome-icon icon="route" flip="horizontal"></font-awesome-icon>ector
+            </b-navbar-brand>
+            <b-navbar-nav>
+                <b-nav-item to="/">Home</b-nav-item>
+                <b-nav-item to="/open-spaces">Open Spaces</b-nav-item>
+                <b-nav-item to="/buildings">Indoor Maps</b-nav-item>
+            </b-navbar-nav>
+        </b-navbar>
     </div>
 </template>
 <script>

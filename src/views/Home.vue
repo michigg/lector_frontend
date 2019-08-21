@@ -4,9 +4,8 @@
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col sm="12">
-                <h1>Lector</h1>
+                <h1 class="h2">Konfiguration</h1>
                 <p>Finde deine Veranstaltung an der Universität Bamberg</p>
-                <h2>Konfiguration</h2>
             </b-col>
         </b-row>
         <LectureSelector/>
