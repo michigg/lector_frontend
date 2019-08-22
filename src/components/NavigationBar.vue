@@ -1,11 +1,10 @@
 <template>
     <div>
         <b-navbar variant="faded" type="light">
-            <b-navbar-brand tag="h1" class="mb-0">
+            <b-navbar-brand tag="h1" class="mb-0" to="/">
                 <font-awesome-icon icon="route" flip="horizontal"></font-awesome-icon>ector
             </b-navbar-brand>
             <b-navbar-nav>
-                <b-nav-item to="/">Home</b-nav-item>
                 <b-nav-item to="/open-spaces">Open Spaces</b-nav-item>
                 <b-nav-item to="/buildings">Indoor Maps</b-nav-item>
             </b-navbar-nav>
