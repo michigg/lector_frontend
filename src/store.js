@@ -20,6 +20,8 @@ export default new Vuex.Store({
         modus: 'foot',
         lecturesLoaded: false,
         roomsLoaded: false,
+        cancelSources: [],
+        CancelToken: axios.CancelToken
     },
     getters: {
         getLectures: state => {
@@ -86,7 +88,11 @@ export default new Vuex.Store({
             return "Unbekannt"
         },
         getRouteTo: state => {
-            return state.to.display;
+            if (state.to.display) {
+                return state.to.display;
+            }
+            return "";
+
         },
         getPolyLineRoute: state => {
             if (state.routingData.paths) {
@@ -124,40 +130,52 @@ export default new Vuex.Store({
                 .then(response => {
                     state.routingData = response.data;
                 })
-                .catch(e => {
-                    console.error(e)
-                });
+                .catch();
         },
         loadLectures(state, {token}) {
-            state.to_coord = null;
-            state.to = null;
+            // let cancelTokenSource = axios.CancelToken.source();
+            // state.cancelSources.push(cancelTokenSource);
+            var CancelToken = axios.CancelToken;
+            var source = CancelToken.source();
+            state.cancelSources.push(source);
             state.lecturesLoaded = false;
             state.lectures = [];
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
-            console.log(state.lecturesLoaded);
-            axios.get(url)
+            axios.get(url, {
+                cancelToken: source.token
+            })
                 .then(response => {
                     state.lecturesLoaded = true;
-                    console.log(state.lecturesLoaded);
                     state.lectures = response.data;
                 })
-                .catch(() => {
+                .catch((thrown) => {
+                    if (axios.isCancel(thrown)) {
+                        console.log('Request canceled', thrown.message);
+                    }
                     state.lecturesLoaded = true;
                     state.lectures = {};
                 });
         },
         loadRooms(state, {token}) {
+            // let cancelTokenSource = axios.CancelToken.source();
+
+            var CancelToken = axios.CancelToken;
+            var source = CancelToken.source();
+            state.cancelSources.push(source);
             state.selected = null;
             state.roomsLoaded = false;
             const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
-            axios.get(url)
+            axios.get(url, {
+                cancelToken: source.token
+            })
                 .then(response => {
                     state.roomsLoaded = true;
                     state.rooms = response.data;
                 })
-                .catch(() => {
+                .catch((e) => {
                     state.roomsLoaded = true;
                     state.rooms = [];
+                    console.log(e.isCancel)
                 });
         },
         loadRoomStaircaseCoord(state, {room}) {
@@ -172,9 +190,7 @@ export default new Vuex.Store({
                     state.to_coord = [response.data.coord[1], response.data.coord[0]];
                     state.to_staircase = response.data;
                 })
-                .catch(e => {
-                    console.error(e)
-                });
+                .catch();
         },
         setUserPosition(state, {user_position}) {
             state.user_position = user_position;
@@ -188,18 +204,31 @@ export default new Vuex.Store({
             state.to_staircase = {};
             state.routingData = {}
         },
+        cancelRequests(state) {
+            for (const cancelSource of state.cancelSources) {
+                console.log(cancelSource);
+                cancelSource.cancel();
+            }
+            state.cancelSources = []
+        },
     },
     actions: {
         loadRouting(context, config) {
             context.commit('loadRouting', config)
         },
-        loadLectures(context, config) {
+        // loadLectures(context, config) {
+        //     // context.commit('resetTo');
+        //     context.commit('loadLectures', config)
+        // },
+        // loadRooms(context, config) {
+        //     // context.commit('resetTo');
+        //     context.commit('loadRooms', config)
+        // },
+        loadLecturesAndRooms(context, config) {
+            context.commit('cancelRequests');
             context.commit('resetTo');
-            context.commit('loadLectures', config)
-        },
-        loadRooms(context, config) {
-            context.commit('resetTo');
-            context.commit('loadRooms', config)
+            context.commit('loadLectures', config);
+            context.commit('loadRooms', config);
         },
         loadRoomStaircaseCoord(context, config) {
             context.commit('loadRoomStaircaseCoord', config)

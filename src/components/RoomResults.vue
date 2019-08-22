@@ -6,7 +6,10 @@
         <b-col cols="12" v-else-if="rooms.length != 0">
             <b-row>
                 <b-col cols="12" class="mb-4">
-                    <button class="btn btn-primary w-100" v-on:click="active = !active">Raumergebnisse</button>
+                    <button class="btn btn-primary w-100" v-on:click="active = !active">Raumergebnisse <span
+                            class="float-right"><font-awesome-icon
+                            icon="arrow-up" v-bind:class="{ 'fa-flip-vertical': !active  }"></font-awesome-icon></span>
+                    </button>
                 </b-col>
             </b-row>
             <rooms :active="active" :rooms="rooms"/>
@@ -35,6 +38,13 @@
             },
             rooms() {
                 return this.$store.getters.getRooms
+            }, selected() {
+                return this.$store.getters.getRouteTo
+            }
+        }, watch: {
+            selected() {
+                console.log("Active false");
+                this.active = false;
             },
         },
     }

@@ -2,7 +2,7 @@
     <div>
         <b-navbar variant="faded" type="light">
             <b-navbar-brand tag="h1" class="mb-0" to="/">
-                <font-awesome-icon icon="route" flip="horizontal"></font-awesome-icon>ector
+                <span class="h3"><font-awesome-icon icon="route" flip="horizontal"></font-awesome-icon></span>ector
             </b-navbar-brand>
             <b-navbar-nav>
                 <b-nav-item to="/open-spaces">Open Spaces</b-nav-item>

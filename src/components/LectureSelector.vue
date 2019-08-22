@@ -67,11 +67,11 @@
             },
             load_lectures_and_rooms(query) {
                 this.$store
-                    .dispatch('loadLectures', {token: query})
+                    .dispatch('loadLecturesAndRooms', {token: query})
                     .then();
-                this.$store
-                    .dispatch('loadRooms', {token: query})
-                    .then();
+                // this.$store
+                //     .dispatch('loadRooms', {token: query})
+                //     .then();
                 this.waiting = false
             },
         },

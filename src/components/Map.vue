@@ -92,7 +92,7 @@
         },
         created() {
             let options = {
-                enableHighAccuracy: false,
+                enableHighAccuracy: true,
                 timeout: Infinity,
                 maximumAge: 30000
             };

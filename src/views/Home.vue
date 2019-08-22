@@ -26,6 +26,7 @@
                     <tr>
                         <td>Zielpunkt</td>
                         <td v-if="to_coord" class="bg-success"> <span>{{to_coord[0]}}, {{to_coord[1]}}</span></td>
+                        <td v-else-if="!to_coord && selected" class="bg-danger">Keine Zielkoordinaten gefunden</td>
                         <td v-else class="bg-warning">Noch ausstehend</td>
                     </tr>
                 </table>
