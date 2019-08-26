@@ -10,7 +10,7 @@
 
         <mini-map :staircase="staircase"></mini-map>
         <h3 class="h4 mt-2">Stockwerke: {{staircase.floors.length}}</h3>
-        <b-table hover :items="staircase.floors" :fields="fields">
+        <b-table hover :items="staircase.floors" :fields="fields" v-if="!hideLevels">
             <template slot="[ranges]" slot-scope="data">
                 <span v-for="(range, index) in data.item.ranges"
                       v-bind:key="index">{{range[0]}} - {{range[1]}}<br></span>
@@ -27,7 +27,8 @@
         components: {MiniMap, NavigationBar},
         props: {
             staircase: {},
-            standalone: null
+            standalone: null,
+            hideLevels: null
         },
         data() {
             return {
