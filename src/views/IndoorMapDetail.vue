@@ -4,7 +4,8 @@
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col xs="12">
-                <h1>Building <span class="building-key">{{file_name | format_file_name}}</span></h1>
+                <h1>Gebäude <span class="building-key">{{file_name | format_file_name}}</span></h1>
+                <b-card-sub-title class="mb-2">{{file_name}}</b-card-sub-title>
             </b-col>
         </b-row>
         <b-row class="h-100">

@@ -4,7 +4,7 @@
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col xs="12">
-                <h1>Open Space GeoJsons</h1>
+                <h1>Freiflächen Konfigurationen</h1>
             </b-col>
         </b-row>
         <b-row>

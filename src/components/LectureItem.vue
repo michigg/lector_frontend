@@ -4,7 +4,7 @@
                v-bind:class="{ active: active}"
                class="mb-2 lecture px-1">
             <div class="lecture-content p-1 h-100 w-100">
-                <h5>{{lecture.name}}</h5>
+                <h5><span v-if="lecture.type.value" class="badge badge-secondary">{{lecture.type.value}}</span> {{lecture.name}} </h5>
                 <lecture-terms :lecture="lecture"/>
             </div>
         </b-col>

@@ -1,12 +1,13 @@
 <template>
     <div>
         <navigation-bar v-if="standalone" :route-back-link="true"/>
-        <h2>{{staircase.name}} <span v-if="staircase.wheelchair" class="text-primary"><font-awesome-icon
+        <h2 :id="staircase.name">{{staircase.name}} <span v-if="staircase.wheelchair" class="text-primary"><font-awesome-icon
                 icon="wheelchair"/> </span><span
                 v-if="staircase.blocked && isBlocked(staircase.blocked)" class="text-danger"><font-awesome-icon
                 icon="times"/> </span></h2>
-        <p>Nachbartreppenhäuser: <span v-for="(neighbour, index) in staircase.neighbours"
-                                       v-bind:key="index">{{neighbour}}</span></p>
+        <p>Nachbartreppenhäuser: <a :href="getTarget(neighbour)" class="badge badge-primary ml-1"
+                                    v-for="(neighbour, index) in staircase.neighbours"
+                                    v-bind:key="index">{{neighbour}} </a></p>
 
         <mini-map :staircase="staircase"></mini-map>
         <h3 class="h4 mt-2">Stockwerke: {{staircase.floors.length}}</h3>
@@ -45,6 +46,11 @@
                         sortable: false,
                     }
                 ],
+            }
+        },
+        methods: {
+            getTarget: function (val) {
+                return '#' + val;
             }
         }
     }

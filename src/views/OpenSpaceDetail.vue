@@ -5,7 +5,7 @@
             <b-col xs="12" sm="9" md="7" lg="6" xl="6" class="text-center"
                    v-if="openSpace">
 
-                <h1>Open Space <span class="openspace-name">{{openSpace.file_name | format_file_name}}</span></h1>
+                <h1>Freifläche <span class="openspace-name">{{openSpace.file_name | format_file_name}}</span></h1>
                 <b-card no-body>
                     <b-card-body>
                         <b-card-title>Konfiguration</b-card-title>

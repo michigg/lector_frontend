@@ -4,7 +4,7 @@
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col xs="12">
-                <h1>Indoor Maps Jsons</h1>
+                <h1>Gebäude Konfigurationen</h1>
             </b-col>
         </b-row>
         <b-row>
