@@ -34,10 +34,13 @@
             openVGN() {
                 let newWindow = window.open("/wait");
                 const user_position = this.$store.getters.getUserPosition;
+                const room = this.$store.getters.getRoom
                 const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/vgn/?from_lon="
                     .concat(user_position[1])
                     .concat("&from_lat=").concat(user_position[0])
-                    .concat("&building_key=").concat(this.$store.getters.getRoom.building_key);
+                    .concat("&building_key=").concat(room.building_key)
+                    .concat("&level=").concat(room.level)
+                    .concat("&number=").concat(room.number);
                 window.axios.get(url)
                     .then(response => {
                         newWindow.location = response.data.url;
