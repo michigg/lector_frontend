@@ -6,7 +6,7 @@
         <div v-bind:class="{ active: isActive }" class="options-popover bg-white">
             <button class="btn btn-link" v-on:click="openVGN">VGN Verbindungen</button>
             <p>
-                <router-link :to="{ name: 'StaircaseConfig', params: {staircase: staircase}}">
+                <router-link :to="{ name: 'StaircaseConfig', params: {staircase: staircase, standalone: true}}">
                     Ziel Informationen
                 </router-link>
             </p>

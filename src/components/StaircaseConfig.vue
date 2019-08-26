@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navigation-bar v-if="standalone" :route-back-link="true"/>
         <h2>{{staircase.name}} <span v-if="staircase.wheelchair" class="text-primary"><font-awesome-icon
                 icon="wheelchair"/> </span><span
                 v-if="staircase.blocked && isBlocked(staircase.blocked)" class="text-danger"><font-awesome-icon
@@ -19,12 +20,14 @@
 </template>
 <script>
     import MiniMap from "./MiniMap"
+    import NavigationBar from "../components/NavigationBar";
 
     export default {
         name: 'staircase-config',
-        components: {MiniMap},
+        components: {MiniMap, NavigationBar},
         props: {
-            staircase: {}
+            staircase: {},
+            standalone: null
         },
         data() {
             return {

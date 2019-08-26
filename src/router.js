@@ -8,6 +8,7 @@ import StaircaseConfig from "./components/StaircaseConfig"
 import OpenSpaceDetail from "./views/OpenSpaceDetail";
 import IndoorMapDetail from "./views/IndoorMapDetail";
 import IndoorMaps from "./views/IndoorMaps";
+import UserIndoorMapDetail from "./components/UserIndoorMapDetail";
 
 Vue.use(Router);
 
@@ -51,6 +52,12 @@ export default new Router({
             path: '/building',
             name: 'IndoorMapDetail',
             component: IndoorMapDetail,
+            props: true
+        },
+        {
+            path: '/route/building',
+            name: 'UserIndoorMapDetail',
+            component: UserIndoorMapDetail,
             props: true
         },
         {

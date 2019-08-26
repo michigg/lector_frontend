@@ -37,6 +37,7 @@
         data() {
             return {
                 isActive: false,
+                lastSpocken: ""
             }
         },
         computed: {
@@ -55,7 +56,26 @@
             to() {
                 return this.$store.getters.getRouteTo
             },
-        }, filters: {
+        },
+        watch: {
+          nextStep(newVal){
+              if (newVal.text != this.lastSpocken){
+                  var msg = new SpeechSynthesisUtterance();
+                  var voices = window.speechSynthesis.getVoices();
+                  msg.voice = voices[10];
+                  // msg.voiceURI = "native";
+                  msg.volume = 1;
+                  msg.rate = 0.9;
+                  msg.pitch = 0.7;
+                  msg.text = newVal.text;
+                  msg.lang = 'de-DE';
+                  window.speechSynthesis.speak(msg);
+                  console.log(newVal.text);
+              }
+              this.lastSpocken = newVal.text;
+          },
+        },
+        filters: {
             to_minutes: function (value) {
                 const minutes = Math.round(value / 60000);
                 if (minutes > 0) {
