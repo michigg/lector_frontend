@@ -53,7 +53,7 @@
             from() {
                 return this.$store.getters.getRouteFrom
             },
-            to() {
+            to_room() {
                 return this.$store.getters.getRouteTo
             },
         },

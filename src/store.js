@@ -11,7 +11,7 @@ export default new Vuex.Store({
         lectures: {},
         rooms: [],
         to_coord: null,
-        to: "",
+        to_room: {},
         to_staircase: {},
         user_position: [
             49.900052680341155,
@@ -24,61 +24,24 @@ export default new Vuex.Store({
         CancelToken: axios.CancelToken
     },
     getters: {
-        getLectures: state => {
-            return state.lectures
-        },
-        getLecturesBefore: state => {
-            if (state.lectures.before) {
-                return state.lectures.before;
-            }
-            return []
-        },
-        getLecturesAfter: state => {
-            if (state.lectures.after) {
-                return state.lectures.after;
-            }
-            return []
-        },
-        getRoom: state => {
-            return state.to;
-        },
-        getRooms: state => {
-            return state.rooms;
-        },
-        getToCoord: state => {
-            return state.to_coord
-        },
-        getToStaircase: state => {
-            return state.to_staircase
-        },
-        getUserPosition: state => {
-            return state.user_position
-        },
-        getRoutingDataAsGeoJson: state => {
-            if (state.routingData) {
-                return state.routingData
-            }
-            return {}
-        },
-        getTextualRoute: state => {
-            if (state.routingData.paths) {
-                return state.routingData.paths[0].instructions
-            }
-            return []
-        },
-        getRoutingData: state => {
-            if (state.routingData) {
-                return state.routingData
-            }
-            return {}
-        },
-        getRouteDuration: state => {
-            if (state.routingData.paths) {
-                return Math.round(state.routingData.paths[0].time / 60000);
-            }
-            return 0
-        },
-        getRouteFrom: state => {
+        getLectures: state => state.lectures,
+        getLecturesBefore: state => state.lectures.before ? state.lectures.before : [],
+        getLecturesAfter: state => state.lectures.after ? state.lectures.after : [],
+
+        getRooms: state => state.rooms,
+
+        getDestinationCoord: state => state.to_coord,
+        getDestinationRoom: state => state.to_room,
+        getDestinationRoomName: state => state.to_room.display ? state.to_room.display : "",
+        getDestinationStaircase: state => state.to_staircase,
+
+        getRoutingDataAsGeoJson: state => state.routingData ? state.routingData : {},
+        getTextualRoute: state => state.routingData.paths ? state.routingData.paths[0].instructions : [],
+        getRoutingData: state => state.routingData ? state.routingData : {},
+        getRouteDuration: state => state.routingData.paths ? Math.round(state.routingData.paths[0].time / 60000) : 0,
+
+        getUserPosition: state => state.user_position,
+        getUserLocationName: state => {
             if (state.routingData.paths) {
                 let street_name = state.routingData.paths[0].instructions[0].street_name.toString();
                 if (street_name == 'nan') {
@@ -87,17 +50,10 @@ export default new Vuex.Store({
             }
             return "Unbekannt"
         },
-        getRouteTo: state => {
-            if (state.to.display) {
-                return state.to.display;
-            }
-            return "";
 
-        },
         getPolyLineRoute: state => {
             if (state.routingData.paths) {
                 const points = state.routingData.paths[0].points.coordinates;
-                // const instrucations = state.routingData.paths[0].instructions;
                 let polyline = [];
                 for (const point of points) {
                     polyline.push([point[1], point[0]]);
@@ -106,12 +62,8 @@ export default new Vuex.Store({
             }
             return []
         },
-        areRoomsLoaded: state => {
-            return state.roomsLoaded;
-        },
-        areLecturesLoaded: state => {
-            return state.lecturesLoaded;
-        },
+        areRoomsLoaded: state => state.roomsLoaded,
+        areLecturesLoaded: state => state.lecturesLoaded,
     },
     mutations: {
         loadRouting(state) {
@@ -140,7 +92,7 @@ export default new Vuex.Store({
             state.cancelSources.push(source);
             state.lecturesLoaded = false;
             state.lectures = [];
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/lecture/?token=".concat(token);
+            const url = "" + process.env.VUE_APP_LECTOR_UNIVIS_API_ENDPOINT + "lectures/?token=".concat(token);
             axios.get(url, {
                 cancelToken: source.token
             })
@@ -216,14 +168,6 @@ export default new Vuex.Store({
         loadRouting(context, config) {
             context.commit('loadRouting', config)
         },
-        // loadLectures(context, config) {
-        //     // context.commit('resetTo');
-        //     context.commit('loadLectures', config)
-        // },
-        // loadRooms(context, config) {
-        //     // context.commit('resetTo');
-        //     context.commit('loadRooms', config)
-        // },
         loadLecturesAndRooms(context, config) {
             context.commit('cancelRequests');
             context.commit('resetTo');
