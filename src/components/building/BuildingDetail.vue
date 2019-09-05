@@ -1,11 +1,10 @@
 <template>
     <div class="h-100">
-        <navigation-bar/>
+        <navigation-bar :route-back-link="true"/>
         <b-row class="justify-content-center">
             <!--            Heading-->
             <b-col xs="12">
-                <h1>Gebäude <span class="building-key">{{file_name | format_file_name}}</span></h1>
-                <b-card-sub-title class="mb-2">{{file_name}}</b-card-sub-title>
+                <h1>Building <span class="building-key">{{building.key}}</span></h1>
             </b-col>
         </b-row>
         <b-row class="h-100">
@@ -14,7 +13,7 @@
                 <b-row v-if="staircases.length > 0">
                     <b-col xs="12" sm="6" md="4" lg="4" xl="3" v-for="(staircase, index) in staircases"
                            v-bind:key="index">
-                        <staircase-config :staircase="staircase"/>
+                        <staircase-config :staircase="staircase" :hide-levels="true"/>
                     </b-col>
                 </b-row>
             </b-col>
@@ -23,12 +22,11 @@
 </template>
 
 <script>
-    import NavigationBar from "../components/NavigationBar";
-    import StaircaseConfig from "../components/StaircaseConfig";
+    import NavigationBar from "../utils/NavigationBar";
+    import StaircaseConfig from "./StaircaseConfig";
 
     export default {
-        name: 'indoorMapDetail',
-        props: ['file_name'],
+        name: 'userIndoorMapDetail',
         components: {StaircaseConfig, NavigationBar},
         data() {
             return {
@@ -44,7 +42,8 @@
             }
         },
         created: function () {
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/buildings/".concat(this.file_name).concat("/");
+            const room = this.$store.getters.getDestinationRoom;
+            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/buildings/".concat(room.building_key).concat("/").concat(room.level).concat("/").concat(room.number).concat("/");
             window.axios.get(url)
                 .then(response => {
                     this.building = response.data;

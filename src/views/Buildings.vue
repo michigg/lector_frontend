@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import NavigationBar from "../components/NavigationBar";
+    import NavigationBar from "../components/utils/NavigationBar";
 
     export default {
         name: 'home',

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-    import NavigationBar from "../components/NavigationBar";
+    import NavigationBar from "../components/utils/NavigationBar";
     // import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet'
 
     export default {

@@ -35,7 +35,7 @@
 </template>
 <script>
     import LectureItem from "./LectureItem";
-    import LoadingAnimation from "./LoadingAnimation";
+    import LoadingAnimation from "../../utils/LoadingAnimation";
 
     export default {
         name: 'lecture-results',
@@ -62,7 +62,7 @@
                 return this.token && !this.lecturesLoaded;
             },
             selected() {
-                return this.$store.getters.getRouteTo
+                return this.$store.getters.getDestinationRoomName
             }
         }, watch: {
             selected(){

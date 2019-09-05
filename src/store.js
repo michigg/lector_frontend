@@ -116,7 +116,7 @@ export default new Vuex.Store({
             state.cancelSources.push(source);
             state.selected = null;
             state.roomsLoaded = false;
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/room/?token=".concat(token);
+            const url = "" + process.env.VUE_APP_LECTOR_UNIVIS_API_ENDPOINT + "rooms/?token=".concat(token);
             axios.get(url, {
                 cancelToken: source.token
             })
@@ -131,9 +131,9 @@ export default new Vuex.Store({
                 });
         },
         loadRoomStaircaseCoord(state, {room}) {
-            state.to = room;
+            state.to_room = room;
             state.to_coord = null;
-            const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/staircases/"
+            const url = "" + process.env.VUE_APP_LECTOR_RO0T_API_ENDPOINT + "staircases/"
                 .concat(room.building_key).concat("/")
                 .concat(room.level).concat("/")
                 .concat(room.number).concat("/");
@@ -151,7 +151,7 @@ export default new Vuex.Store({
             state.modus = modus;
         },
         resetTo(state) {
-            state.to = "";
+            state.to_room = {};
             state.to_coord = null;
             state.to_staircase = {};
             state.routingData = {}

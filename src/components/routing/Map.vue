@@ -54,11 +54,8 @@
                 return this.$store.getters.getUserPosition
             },
             goal() {
-                return this.$store.getters.getToCoord
+                return this.$store.getters.getDestinationCoord
             },
-            // lineStart() {
-            //     return this.$store.getters.getPolyLineRoute[0]
-            // },
         },
 
         methods: {
@@ -96,7 +93,6 @@
                 timeout: Infinity,
                 maximumAge: 30000
             };
-
             navigator.geolocation.watchPosition(this.geo_success, this.geo_error, options);
         }
     }

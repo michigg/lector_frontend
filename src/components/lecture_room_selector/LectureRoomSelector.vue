@@ -29,15 +29,14 @@
     </div>
 </template>
 <script>
-    import LectureResults from "./LectureResults";
-    import RoomResults from "./RoomResults";
+    import LectureResults from "./lecture/LectureResults";
+    import RoomResults from "./room/RoomResults";
 
     export default {
-        name: 'LectureSelector',
+        name: 'LectureRoomSelector',
         components: {RoomResults, LectureResults},
         data() {
             return {
-                selected: null,
                 token: null,
                 currentTimeout: null,
                 roomOverride: null,
@@ -49,7 +48,7 @@
                 return this.$store.getters.getLectures
             },
             to_coord() {
-                return this.$store.getters.getToCoord
+                return this.$store.getters.getDestinationCoord
             },
             hasNoResults() {
                 const noLectures = this.$store.getters.getLecturesBefore.length === 0 && this.$store.getters.getLecturesAfter.length === 0;
@@ -69,9 +68,6 @@
                 this.$store
                     .dispatch('loadLecturesAndRooms', {token: query})
                     .then();
-                // this.$store
-                //     .dispatch('loadRooms', {token: query})
-                //     .then();
                 this.waiting = false
             },
         },

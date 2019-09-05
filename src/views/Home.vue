@@ -43,8 +43,8 @@
 </template>
 
 <script>
-    import NavigationBar from "../components/NavigationBar";
-    import LectureSelector from "../components/LectureSelector";
+    import NavigationBar from "../components/utils/NavigationBar";
+    import LectureSelector from "../components/lecture_room_selector/LectureRoomSelector";
 
     export default {
         name: 'home',
@@ -59,10 +59,10 @@
                 return this.$store.getters.getLectures
             },
             to_coord() {
-                return this.$store.getters.getToCoord
+                return this.$store.getters.getDestinationCoord
             },
             selected() {
-                return this.$store.getters.getRouteTo
+                return this.$store.getters.getDestinationRoomName
             }
         },
         methods: {
