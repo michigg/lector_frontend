@@ -7,6 +7,7 @@
             <b-navbar-nav v-if="!routeBackLink">
                 <b-nav-item to="/open-spaces">Freiflächen</b-nav-item>
                 <b-nav-item to="/buildings">Gebäude</b-nav-item>
+                <b-nav-item :href="this.ghRouterUrl">Routing Server</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto" v-else>
                 <b-nav-item to="/routing">Route</b-nav-item>
@@ -20,6 +21,11 @@
         name: 'navigation-bar',
         props: {
             routeBackLink: null,
-        }
+        },
+        computed: {
+            ghRouterUrl() {
+                return process.env.VUE_APP_GH_DOMAIN
+            },
+        },
     }
 </script>
