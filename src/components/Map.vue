@@ -40,7 +40,7 @@
         components: {LMap, LTileLayer, LMarker, LPolyline, LIcon},
         data() {
             return {
-                url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
                 zoom: 18,
                 bounds: null,
                 iconSize: 10,
