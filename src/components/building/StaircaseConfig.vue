@@ -20,8 +20,8 @@
     </div>
 </template>
 <script>
-    import MiniMap from "./MiniMap"
-    import NavigationBar from "../components/NavigationBar";
+    import MiniMap from "./BuildingMap"
+    import NavigationBar from "../utils/NavigationBar";
 
     export default {
         name: 'staircase-config',

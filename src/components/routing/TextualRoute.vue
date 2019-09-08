@@ -1,8 +1,7 @@
 <template>
     <div class="textual-route-wrapper">
         <b-button block squared variant="outline-primary" href="#" v-on:click="isActive = !isActive"
-                  class="bg-white textual-route-btn" v-if="routingData.length > 0">{{from | get_street_name}} - {{to |
-            get_street_name}}
+                  class="bg-white textual-route-btn" v-if="routingData.length > 0">{{from | get_street_name}} - {{to_room}}
             ({{duration}}min)
             <router-link to="/">
                 <font-awesome-icon icon="home"/>
@@ -44,17 +43,14 @@
             routingData() {
                 return this.$store.getters.getTextualRoute
             },
-            nextStep() {
-                return this.$store.getters.getTextualRoute[0]
-            },
             duration() {
                 return this.$store.getters.getRouteDuration
             },
             from() {
-                return this.$store.getters.getRouteFrom
+                return this.$store.getters.getUserLocationName
             },
-            to() {
-                return this.$store.getters.getRouteTo
+            to_room() {
+                return this.$store.getters.getDestinationRoomName
             },
         },
         watch: {

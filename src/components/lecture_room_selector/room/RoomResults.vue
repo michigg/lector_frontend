@@ -17,7 +17,7 @@
     </b-row>
 </template>
 <script>
-    import LoadingAnimation from "./LoadingAnimation"
+    import LoadingAnimation from "../../utils/LoadingAnimation"
     import Rooms from "./Rooms";
 
     export default {
@@ -39,11 +39,10 @@
             rooms() {
                 return this.$store.getters.getRooms
             }, selected() {
-                return this.$store.getters.getRouteTo
+                return this.$store.getters.getDestinationRoomName
             }
         }, watch: {
             selected() {
-                console.log("Active false");
                 this.active = false;
             },
         },

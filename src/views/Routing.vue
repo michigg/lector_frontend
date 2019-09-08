@@ -9,9 +9,9 @@
 </template>
 
 <script>
-    import Map from '@/components/Map.vue';
-    import TextualRoute from '@/components/TextualRoute.vue';
-    import Options from '@/components/Options.vue';
+    import Map from '@/components/routing/Map.vue';
+    import TextualRoute from '@/components/routing/TextualRoute.vue';
+    import Options from '@/components/routing/Options.vue';
 
     export default {
         name: "routing",

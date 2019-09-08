@@ -27,20 +27,19 @@
                 return this.$store.getters.getUserPosition;
             },
             staircase() {
-                return this.$store.getters.getToStaircase;
+                return this.$store.getters.getDestinationStaircase;
             },
         },
         methods: {
             openVGN() {
                 let newWindow = window.open("/wait");
                 const user_position = this.$store.getters.getUserPosition;
-                const room = this.$store.getters.getRoom
-                const url = "" + process.env.VUE_APP_LECTOR_DOMAIN + "/api/v1/vgn/?from_lon="
+                const toCoord = this.$store.getters.getDestinationCoord;
+                const url = "" + process.env.VUE_APP_LECTOR_VGN_API_ENDPOINT + "?from_lon="
                     .concat(user_position[1])
                     .concat("&from_lat=").concat(user_position[0])
-                    .concat("&building_key=").concat(room.building_key)
-                    .concat("&level=").concat(room.level)
-                    .concat("&number=").concat(room.number);
+                    .concat("&to_lon=").concat(toCoord[1])
+                    .concat("&to_lat=").concat(toCoord[0]);
                 window.axios.get(url)
                     .then(response => {
                         newWindow.location = response.data.url;
