@@ -3,12 +3,12 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Routing from './views/Routing.vue'
 import OpenSpaces from "./views/OpenSpaces";
-import Loading from "./components/Loading";
-import StaircaseConfig from "./components/StaircaseConfig"
-import OpenSpaceDetail from "./views/OpenSpaceDetail";
-import IndoorMapDetail from "./views/IndoorMapDetail";
-import IndoorMaps from "./views/IndoorMaps";
-import UserIndoorMapDetail from "./components/UserIndoorMapDetail";
+import Loading from "./components/utils/Loading";
+import StaircaseConfig from "./components/building/StaircaseConfig"
+import OpenSpaceDetail from "./views/OpenSpace";
+import IndoorMapDetail from "./views/Building";
+import IndoorMaps from "./views/Buildings";
+import UserIndoorMapDetail from "./components/building/BuildingDetail";
 
 Vue.use(Router);
 
