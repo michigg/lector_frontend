@@ -27,3 +27,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Using Docker
+1. RUN `docker-compose up -d`
+2. OPEN Browser `localhost:8787`
