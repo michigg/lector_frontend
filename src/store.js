@@ -133,10 +133,12 @@ export default new Vuex.Store({
         loadRoomStaircaseCoord(state, {room}) {
             state.to_room = room;
             state.to_coord = null;
-            const url = "" + process.env.VUE_APP_LECTOR_RO0T_API_ENDPOINT + "staircases/"
+            const url = "" + process.env.VUE_APP_LECTOR_RO0T_API_ENDPOINT + "buildings/"
                 .concat(room.building_key).concat("/")
+                .concat('staircases/')
                 .concat(room.level).concat("/")
-                .concat(room.number).concat("/");
+                .concat(room.number).concat("/")
+                .concat("coord/");
             axios.get(url)
                 .then(response => {
                     state.to_coord = [response.data.coord[1], response.data.coord[0]];

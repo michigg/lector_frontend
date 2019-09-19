@@ -1,13 +1,13 @@
 <template>
     <div>
         <navigation-bar v-if="standalone" :route-back-link="true"/>
-        <h2 :id="staircase.name">{{staircase.name}} <span v-if="staircase.wheelchair" class="text-primary"><font-awesome-icon
+        <h2 :id="staircase.id">{{staircase.name}} <span v-if="staircase.wheelchair" class="text-primary"><font-awesome-icon
                 icon="wheelchair"/> </span><span
                 v-if="staircase.blocked && isBlocked(staircase.blocked)" class="text-danger"><font-awesome-icon
                 icon="times"/> </span></h2>
-        <p>Nachbartreppenhäuser: <a :href="getTarget(neighbour)" class="badge badge-primary ml-1"
+        <p v-if="staircases">Nachbartreppenhäuser: <a :href="getTarget(neighbour)" class="badge badge-primary ml-1"
                                     v-for="(neighbour, index) in staircase.neighbours"
-                                    v-bind:key="index">{{neighbour}} </a></p>
+                                    v-bind:key="index">{{getNeighbourName(neighbour)}} </a></p>
 
         <mini-map :staircase="staircase"></mini-map>
         <h3 class="h4 mt-2">Stockwerke: {{staircase.floors.length}}</h3>
@@ -28,6 +28,7 @@
         components: {MiniMap, NavigationBar},
         props: {
             staircase: {},
+            staircases: [],
             standalone: null,
             hideLevels: null
         },
@@ -51,6 +52,14 @@
         methods: {
             getTarget: function (val) {
                 return '#' + val;
+            },
+            getNeighbourName: function (staircase_id) {
+                for (const staircase of this.staircases) {
+                    if (staircase.id === staircase_id) {
+                        return staircase.name
+                    }
+                }
+                return "Nachbartreppenhaus für ID " + staircase_id + " nicht gefunden"
             }
         }
     }

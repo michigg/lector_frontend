@@ -13,7 +13,7 @@
                 <b-row v-if="staircases.length > 0">
                     <b-col xs="12" sm="6" md="4" lg="4" xl="3" v-for="(staircase, index) in staircases"
                            v-bind:key="index">
-                        <staircase-config :staircase="staircase" :hide-levels="true"/>
+                        <staircase-config :staircase="staircase" :staircases="staircases" :hide-levels="true"/>
                     </b-col>
                 </b-row>
             </b-col>
