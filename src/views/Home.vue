@@ -6,6 +6,7 @@
             <b-col sm="12">
                 <h1 class="h2">Konfiguration</h1>
                 <p>Finde deine Veranstaltung an der Universität Bamberg</p>
+                <p>{{ $route.params.building_key }}/{{$route.params.floor}}.{{$route.params.number}}</p>
             </b-col>
         </b-row>
         <LectureSelector/>
@@ -25,7 +26,7 @@
                     </tr>
                     <tr>
                         <td>Zielpunkt</td>
-                        <td v-if="to_coord" class="bg-success"> <span>{{to_coord[0]}}, {{to_coord[1]}}</span></td>
+                        <td v-if="to_coord" class="bg-success"><span>{{to_coord[0]}}, {{to_coord[1]}}</span></td>
                         <td v-else-if="!to_coord && selected" class="bg-danger">Keine Zielkoordinaten gefunden</td>
                         <td v-else class="bg-warning">Noch ausstehend</td>
                     </tr>
@@ -95,6 +96,20 @@
             }
         },
         created() {
+            let building_key = this.$route.params.building_key;
+            let floor = this.$route.params.floor;
+            let number = this.$route.params.number;
+            if (building_key && floor && number) {
+                let selected = {
+                    "building_key": building_key,
+                    "level": floor,
+                    "number": number,
+                    "display": this.get_room_display_name(building_key, floor, number)
+                };
+                this.$store
+                    .dispatch('loadRoomStaircaseCoord', {'room': selected})
+                    .then();
+            }
 
         }
     }
